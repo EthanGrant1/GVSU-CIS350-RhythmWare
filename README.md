@@ -9,8 +9,8 @@ Our project will be programmed in Java. As it stands currently we are going to b
 ## Team Members and Roles
 
 * [Ethan Grant](https://github.com/EthanGrant1/CIS350-HW2-Grant/tree/main) (Asset & Art Design, Programming)
-* Member 2 (Role 3, Role 4)
-* Member 3 (Role 5, Role 6)
+* [David Geisel](https://github.com/geiseld/CIS350-HW2-Geisel/tree/main) (Programming)
+* [Roman Brancato](https://github.com/romanbrancato/CIS350-HW2-Geisel/tree/main) (Programming)
 
 ## Prerequisites
 
