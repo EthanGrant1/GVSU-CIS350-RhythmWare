@@ -10,7 +10,7 @@ Our project will be programmed in Java. As it stands currently we are going to b
 
 * [Ethan Grant](https://github.com/EthanGrant1/CIS350-HW2-Grant/tree/main) (Asset & Art Design, Programming)
 * [David Geisel](https://github.com/geiseld/CIS350-HW2-Geisel/tree/main) (Programming)
-* [Roman Brancato](https://github.com/romanbrancato/CIS350-HW2-Geisel/tree/main) (Programming)
+* [Roman Brancato](https://github.com/romanbrancato/CIS350-HW2-Brancato/tree/main) (Programming)
 
 ## Prerequisites
 
