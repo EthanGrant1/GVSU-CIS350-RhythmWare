@@ -21,7 +21,7 @@ The "type" (or subgenre) or rhythm game that we are going to create is currently
 
 # Anticipated Technologies
 
-We are anticipating that this project will be built in Java.
+We are anticipating that this project will be built in Java. We anticipate that it will require imports for GUI, mathematical calculations (specifically for angle calculation), timers (for BPM, note, and accuracy timing, as well as triggers for game events).
 
 # Method/Approach
 
@@ -29,8 +29,45 @@ Our method and approach involves creating a basic version of the specific type o
 
 # Estimated Timeline
 
-(Figure out what your major milestones for this project will be, including how long you anticipate it *may* take to reach that point)
+Important Information: Times are unknown currently, but will be later refined. Lists are primarly displayed in order of most important to least important. Subject to change and reworking.
+
+* Refinement of implementable features (throughout next week)
+
+* Primary Feature Implementation:
+  * Assess imports and dependencies for feature implementation.
+  * Basic feature prototyping (the game is in a -- perhaps barely -- playable state). Get notes moving / player character interaction / implementation of timers / etc.
+    * Notes will move derterministically based on a static beats per minute value that will be set for testing purposes (they will appear at a constant rate).
+    * Notes will also appear at random locations (if the "scrolling" game style is chosen there will be 3 "lanes" in which the notes can appear. One for up, one for forward, and one for down. If the "radial" game style is chosen, notes will move at a random angle outwards from the play area.)
+    * Scores will not be tabulated during this period, nor will accuracy scores.
+  * Implement GUI (will be iterated on and features will be slowly introduced as time goes on, but here's a potential roadmap for it)
+    * Add primary buttons for starting the game.
+    * Create a simple database for storing high scores. 
+    * Settings menu for changing difficulty / sound, music volume / etc. (will most likely include a text field in which the player can define the BPM, buttons for difficulty, sliders for volume, etc.)
+
+* Refined Feature Implementation:
+  * Add a dynamic scoring system in which the player will be judged based on how well the timing is to the beat of the song (i.e., 50 for poor, 100 for good, 300 for perfect) (timing values will be determined exactly during testing, such that there is a specific timing "window" in milliseconds in which the player will be able to hit the button to receive a score).
+  * Add hazards / health.
+    * Hazards: Add some kind of hazard in which the player must either avoid (by pressing another button), or simply not hit when the hazard comes in contact with the "hit zone" (area of effect in which the player's actions are enacted upon a object).
+    * Health: Correlates directly with hazards in that the player will lose health if hit with a hazard, and lose if all health is lost.
+  * Add custom charting.
+    * Notes will no longer appear at / move at a constant rate. The frequency / speed of the notes will be determined by a custom charting system, which allows for dynamic note placemnt (i.e. on 4th beats, 8th beats, 16th beats, 32nd beats, etc.), as well as dynamic note frequency (BPM can change on the fly). This will allow a song to "sync up" with a song.
+    * We will most likely import a song as an audio file to start, and create a chart for it. If time allows, we will create more charts.
+    * Add "hold notes" in which a player will hold a button rather than simply pressing it. Visually appears as a long, stretched out note.
+  * Refine the graphics (will most likely be iterated on throughout the project instead of all at the end, due to feature tweaks and new implementations)
+    * Asset design (block design / radial area design, player character, UI, play areas, different screens, etc.)
+    * Creation of simple animations for the player character's interactions (action of swinging a sword, breaking the blocks, idle animations, etc.) 
+    * Title screen logo
+    * Backgrounds and other visual elements
+    * Visual eye candy (screen transitions, dynamic menu animations, refinement of asset design, dynamic particle effects, etc.)
 
 # Anticipated Problems
+* Timing issues
+  * Note interaction with "hit zone" / note frequency, appearance rate
+  * Tweaking number of milliseconds for timing variables
+  * Button press latency / delay
 
-(Describe any problems you foresee that you will need to overcome)
+* Error checking / test cases
+  * Requires extensive play testing in order to gauge issues in gameplay
+  * If and when unforseen problems arise, finding exact cases in which problems can be reproduced is difficult (because gameplay is dynamic, it may be hard to even determine a cause).
+
+* TODO: Please add more to this list after touching base during meeting times.
