@@ -1,6 +1,7 @@
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -8,6 +9,12 @@ import java.awt.event.ActionListener;
  * The main panel for the GUI.
  *****************************************/
 public class ContentPanel extends JPanel {
+    // So we can start the game
+    public static Game game;
+
+    private Image screenImage;
+    private Graphics screenGraphic;
+
     // Buttons within the GUI
     JButton playButton, scoreButton, optionButton, quitButton;
 
@@ -54,7 +61,6 @@ public class ContentPanel extends JPanel {
         // Register the action listeners
         playButton.addActionListener(new ButtonListener());
         scoreButton.addActionListener(new ButtonListener());
-        playButton.addActionListener(new ButtonListener());
         optionButton.addActionListener(new ButtonListener());
         quitButton.addActionListener(new ButtonListener());
     }
