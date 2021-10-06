@@ -3,7 +3,12 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class ContentPanelMain extends JPanel{
+/*********************************************
+ * ContentPanelMain performs all of the menu
+ * actions as well as some behind the scenes
+ * work for the GUI class.
+ **********************************************/
+public class ContentPanelMain extends JPanel {
 
     // Buttons for the menu toolbar
     private JMenuItem openMenuButton, saveMenuButton, saveAsMenuButton,
@@ -49,13 +54,15 @@ public class ContentPanelMain extends JPanel{
     }
 
     /*****************************************************
-     * Does an action upon clicking the menu button.
+     * Does an action upon clicking the menu buttons.
      *****************************************************/
     private class MenuListener implements ActionListener {
 
         @Override
         public void actionPerformed(ActionEvent event) {
 
+            // Button events are currently blank
+            // TODO: Give functionality to all menu buttons
             if (event.getSource() == openMenuButton) {
 
             }

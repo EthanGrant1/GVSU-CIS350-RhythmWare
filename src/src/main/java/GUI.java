@@ -7,7 +7,7 @@ import java.awt.*;
  * This is what the Game() class is going to be run in.
  *******************************************************************/
 public class GUI {
-    public static void main(String args[]){
+    public static void main(String args[]) {
 
         JFrame frame;
         // Setting up the main frame

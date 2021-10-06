@@ -4,26 +4,23 @@
  ***************************************************************************************************/
 
 public class BeatKeeper {
+    // Time in which the block will be played
     private int time;
-    private String noteType;
+    // The lane in which the block will occupy
+    private String blockType;
 
-    public int getTime() {
-        return time;
-    }
-    public void setTime(int time) {
-        this.time = time;
-    }
-    public String getNoteName() {
-        return noteType;
-    }
-    public void setNoteName(String noteName) {
-        this.noteType = noteName;
-    }
-
-    //Constructor
-    public BeatKeeper(int time, String noteType) {
+    // A basic constructor
+    public BeatKeeper(int time, String blockType) {
         super();
         this.time = time;
-        this.noteType = noteType;
+        this.blockType = blockType;
     }
-}
+
+    // Various getters and setters
+    public int getTime() { return time; }
+
+    public void setTime(int time) { this.time = time; }
+
+    public String getBlockType() { return blockType; }
+
+    public void setBlockType(String blockType) { this.blockType = blockType; } }

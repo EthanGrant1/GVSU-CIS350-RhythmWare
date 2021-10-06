@@ -6,29 +6,40 @@ import javax.swing.*;
  * https://github.com/JiwooL0920/DynamicBeat/blob/master/Dynamic%20Beat/src/dynamic_beat_17/Note.java
  ***************************************************************************************************/
 
-public class Block extends Thread {
+public class Block extends Thread{
 
+    // The values for the position of the blocks
     private int x = 0;
     private int y = 0;
-    public int noteSpeed;
 
-    private boolean activeNote = true;
+    // How fast the block moves down the screen
+    public int blockSpeed;
 
-    private String noteType;
+    // Whether or not the block is currently "in play" or not
+    private boolean activeBlock = true;
 
-    public String getNoteType() { return noteType; }
+    // What lane the block occupies
+    private String blockType;
 
-    public boolean isActiveNote() { return activeNote; }
+    // The block is no longer in play
+    public void deactivate() { activeBlock = false; }
 
-    public void deactivate() { activeNote = false; }
+    /*********************************
+     * Constructor for Block
+     *
+     * @param blockType is the lane
+     * in which the block will occupy.
+     **********************************/
+    public Block(String blockType) {
+        // Constants for lane x-axis positions
+        int redBlockPosX = 545;
+        int greenBlockPosX = 655;
+        int yellowBlockPosX = 765;
+        int blueBlockPosX = 875;
 
-    public Block(String noteType) {
-        int redBlockPosX = 760;
-        int greenBlockPosX = 860;
-        int yellowBlockPosX = 960;
-        int blueBlockPosX = 1060;
-
-        switch (noteType) {
+        // Determine what lane the block occupies,
+        // and set the x value to the constant position
+        switch (blockType) {
             case "red":
                 x = redBlockPosX;
                 break;
@@ -41,43 +52,67 @@ public class Block extends Thread {
             case "blue":
                 x = blueBlockPosX;
                 break; }
-        this.noteType = noteType; }
+        this.blockType = blockType; }
 
-    public void drawNote(Graphics2D graphics2D) {
-        graphics2D.fillRect(x, y, 100,100);
-    }
+    /******************************************
+     * Renders a block to the screen.
+     *
+     * @param g is the Graphics instance that is
+     * called whenever the Container which holds
+     * it is rendered to the screen.
+     ******************************************/
+    public void drawBlock(java.awt.Graphics g) {
+        // Blocks are 100x100 pixels
+        g.fillRect(x, y, 100, 100); }
 
+    /************************
+     * Moves a block down the
+     * screen by a set number
+     * of pixels.
+     ************************/
     public void moveBlock() {
-        y += getNoteSpeed();
+        /* Block speed is the number
+           of pixels to move per frame
+           cycle. */
+        y += getBlockSpeed();
 
-        if (y > 1080) {
-            deactivate();
-        }
-    }
+        /* If the block is past the
+        screen, remove it from play */
+        if (y > 1080) { deactivate(); } }
 
+    /********************************************
+     * Running the method from the Thread class.
+     ********************************************/
     @Override
-    public void run() { // Running the Thread
+    public void run() {
         try {
             while (true) {
                 moveBlock();
-                if (activeNote) { Thread.sleep(16); }
+                if (activeBlock) { Thread.sleep(16); }
 
                 else {
                     interrupt();
-                    break;
-                } } }
+                    break; } } }
 
         catch(Exception e) { System.err.println(e.getMessage()); } }
 
-    public int getNoteSpeed() {
-        return noteSpeed;
-    }
+    // Various getters and setters
+    public int getX() { return x; }
 
-    public void setNoteSpeed(int noteSpeed) {
-        this.noteSpeed = noteSpeed;
-    }
+    public void setX(int x) { this.x = x; }
 
-    public int getY() {
-        return y;
-    }
-}
+    public int getY() { return y; }
+
+    public void setY(int y) { this.y = y; }
+
+    public int getBlockSpeed() { return blockSpeed; }
+
+    public void setBlockSpeed(int blockSpeed) { this.blockSpeed = blockSpeed; }
+
+    public boolean isActiveBlock() { return activeBlock; }
+
+    public void setActiveNote(boolean activeBlock) { this.activeBlock = activeBlock; }
+
+    public String getBlockType() { return blockType; }
+
+    public void setBlockType(String blockType) { this.blockType = blockType; } }
