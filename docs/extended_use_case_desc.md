@@ -1,18 +1,18 @@
-#Extended Use Case Description
+# Extended Use Case Description
 
-##Use case: Buy Item
+## Use case: Buy Item
 
-##Actors: 
+## Actors: 
 User (initiator)
 Graphics, Game, Block classes
 
-##Description:
+## Description:
 1. 
 
 
 
-##Cross Ref.
+## Cross Ref.
 
 
 
-##Use-Cases:
+## Use-Cases:
