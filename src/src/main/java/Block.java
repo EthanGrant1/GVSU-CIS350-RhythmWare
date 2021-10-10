@@ -6,7 +6,7 @@ import javax.swing.*;
  * https://github.com/JiwooL0920/DynamicBeat/blob/master/Dynamic%20Beat/src/dynamic_beat_17/Note.java
  ***************************************************************************************************/
 
-public class Block extends Thread{
+public class Block extends Thread {
 
     // The values for the position of the blocks
     private int x = 0;

@@ -1,8 +1,8 @@
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
-import java.util.ArrayList;
 import java.util.Random;
+import java.util.Stack;
 
 /**************************************************************************
  * Class is currently in testing phases. Blocks will render to the screen,
@@ -17,7 +17,7 @@ public class Graphics extends JFrame {
 
     // An array list to keep track of the active blocks
     // TODO: Maybe use a Stack class?
-    ArrayList<Block> blockStack = new ArrayList<>();
+    Stack<Block> blockStack = new Stack<>();
 
     // An arbitrary size for our block count
     int size = 1000;
@@ -35,7 +35,7 @@ public class Graphics extends JFrame {
 
     // y-values of active blocks
     // TODO: Maybe use a Stack class?
-    ArrayList<Integer> y_val = new ArrayList<>();
+    Stack<Integer> y_val = new Stack<>();
 
     // A prototype of the graphical rendering
     public Graphics() {
@@ -56,14 +56,17 @@ public class Graphics extends JFrame {
                 for (int i = 0; i < y_val.size(); i++) {
                     /* Remove them from the list if they are
                        past the screen. */
-                    if (y_val.get(i) >= 1080) {
-                        y_val.remove(i);
+                    if (y_val.peek() >= 1080) {
+                        y_val.pop();
                         // Ensure that there is not an IndexOutOfBounds error
                         i++; }
 
                     // Else, move it a set amount down the screen
                     else {
-                        y_val.set(i, y_val.get(i)+1); } }
+                        int temp = y_val.peek() + 1;
+                        y_val.pop();
+                        y_val.push(temp);
+                    } }
 
                 // Redraw the graphics with updated positions
                 d.repaint(); } };
@@ -185,7 +188,7 @@ public class Graphics extends JFrame {
                 Block b = new Block(beats[current_i].getBlockType());
 
                 // Add it to the currently active blocks
-                blockStack.add(b);
+                blockStack.push(b);
 
                 // Add 1 to current_i
                 current_i++; }
@@ -196,15 +199,15 @@ public class Graphics extends JFrame {
             // For all currently active blocks...
             for (int j = 0; j < blockStack.size();  j++) {
                 // Get their current y-value
-                current_y = blockStack.get(j).getY();
+                current_y = blockStack.peek().getY();
                 // and add it to the y-value stack.
                 y_val.add(current_y);
 
                 // Draw the block at the intended position
-                g.fillRect(current_x, y_val.get(j), 100, 100);
+                g.drawRect(current_x, y_val.get(j), 100, 100);
 
                 // If the y-value is past the screen, remove the block from the stack.
-                if (current_y >= 1080) { blockStack.remove(blockStack.get(j)); } } }
+                if (current_y >= 1080) { blockStack.pop(); } } }
 
         // Default dimension is 1920x1080
         public Dimension getPreferredSize() {
