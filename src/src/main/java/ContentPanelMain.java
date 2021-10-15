@@ -31,7 +31,7 @@ public class ContentPanelMain extends JPanel {
 
         // Create the main content panel
         JPanel panel = new JPanel();
-        panel.add(new ContentPanel());
+        panel.add(new ContentPanel("Main Menu"));
         add(panel);
 
         // All of the menu buttons
