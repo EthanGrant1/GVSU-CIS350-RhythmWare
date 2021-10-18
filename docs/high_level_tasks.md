@@ -1,4 +1,4 @@
-# High Level Tasks For Out Term Project
+# High Level Tasks For Our Term Project
 
 ## Tasks that have been completed
 
