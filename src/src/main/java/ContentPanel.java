@@ -62,8 +62,8 @@ public class ContentPanel extends JPanel {
             optionButton.addActionListener(new ButtonListener());
             quitButton.addActionListener(new ButtonListener());
         }
-        //TODO: format buttons correctly
-        if(menu.equals("Song Select")){
+
+        if (menu.equals("Song Select")) {
             // Fills horizontal space
             c.fill = GridBagConstraints.HORIZONTAL;
             // No need for padding on the x and y axis
@@ -106,10 +106,8 @@ public class ContentPanel extends JPanel {
     //method for switching between menus
     public void changeMenu(String e) {
         // remove all previous menu parts and create new panel
-        removeAll();
-        JPanel newPanel = new JPanel();
-        newPanel.add(new ContentPanel(e));
-        add(newPanel);
+        this.removeAll();
+        this.add(new ContentPanel(e));
         repaint();
         revalidate();
     }
