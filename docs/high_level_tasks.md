@@ -26,7 +26,7 @@
   * Name: Flesh Out GUI Functionality
   * Description: Finish implementing the function for all GUI buttons and rework / tweak the design of the GUI overall.
   * Expected Time to Complete: Will evolve as features get implemented and will most likely be iterated on throughout the entire project cycle.
-  * Person(s) Responsible: Roman Brancato (Song selection menu design), Ethan Grant (Programming / Design / Graphics), Brian Turmbo and David Geisel (RESPONSIBILITIES GO HERE)
+  * Person(s) Responsible: Roman Brancato (Song selection menu design), Ethan Grant (Programming / Design / Graphics), David Geisel (Programming), Brian Turmbo (RESPONSIBILITIES GO HERE)
 
 * Task 5
   * Name: Button Press Functionality
@@ -38,7 +38,7 @@
   * Add Score Features
   * Description: Implement features that will keep track of the user's score and also include them graphical (numerical particle / indicator effects, score counter, etc).
   * Expected Time to Complete: 1 - 2 weeks
-  * Person(s) Responsible: Ethan Grant (Programming / Graphics), Roman Brancato (Programming) (PEOPLE GO HERE) (RESPONSIBILITIES GO HERE)
+  * Person(s) Responsible: Ethan Grant (Programming / Graphics), Roman Brancato (Programming), David Geisel (Programming), (PEOPLE GO HERE) (RESPONSIBILITIES GO HERE)
 
 * Task 7 
   * Name: Iterate Graphics
