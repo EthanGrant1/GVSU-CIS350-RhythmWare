@@ -38,7 +38,7 @@
   * Add Score Features
   * Description: Implement features that will keep track of the user's score and also include them graphical (numerical particle / indicator effects, score counter, etc).
   * Expected Time to Complete: 1 - 2 weeks
-  * Person(s) Responsible: Ethan Grant (Programming / Graphics), (PEOPLE GO HERE) (RESPONSIBILITIES GO HERE)
+  * Person(s) Responsible: Ethan Grant (Programming / Graphics), Roman Brancato (Programming) (PEOPLE GO HERE) (RESPONSIBILITIES GO HERE)
 
 * Task 7 
   * Name: Iterate Graphics
