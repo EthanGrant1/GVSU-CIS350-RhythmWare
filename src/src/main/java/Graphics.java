@@ -10,10 +10,6 @@ import java.util.ArrayList;
  * moving the intended first position.
  *
  * TODO:
- *  Render colors of Blocks such that they do not change after calls
- *  to Graphics.setColor().
- *
- * TODO:
  *  Dynamically create timing for every block so that they can be rendered
  *  in different time signatures (4th, 8th, 16th, etc).
  **************************************************************************/
@@ -31,9 +27,7 @@ public class Graphics extends JFrame {
     // How graphics will be drawn to the screen
     Draw d = new Draw();
 
-    // Various variables to keep track of coordinates and index in the arrays
-    int current_x = 0;
-    int current_y = 0;
+    // Variable to keep track of index in the array
     int current_i = 0;
 
     // y-values of active blocks
@@ -41,6 +35,9 @@ public class Graphics extends JFrame {
 
     // Float to keep track of the current time
     float time = 0f;
+
+    // How we will keep track of all game variables
+    public static Game game = new Game();
 
     public void makeRandomBeatKeeper() {
         // Offset in seconds.
@@ -110,6 +107,9 @@ public class Graphics extends JFrame {
         // Add the Draw to the JFrame
         add(d);
 
+        // Add the key listener
+        addKeyListener(new KeyListener());
+
         // Window is 1920x1080
         setSize(d.getPreferredSize());
 
@@ -164,30 +164,11 @@ public class Graphics extends JFrame {
             int yellowBlockPosX = 765;
             int blueBlockPosX = 875;
 
+            // Constant for goal y-position
+            int goalPosY = 720;
+
             // If there are blocks still in the list
             if (current_i < beats.length) {
-                /* Get the block type of the current block,
-                   set the x-value, and change the color of
-                   the Graphics variable to the color of the
-                   corresponding lane. */
-                switch (beats[current_i].getBlockType()) {
-                    case "red":
-                        current_x = redBlockPosX;
-                        g.setColor(Color.RED);
-                        break;
-                    case "green":
-                        current_x = greenBlockPosX;
-                        g.setColor(Color.GREEN);
-                        break;
-                    case "yellow":
-                        current_x = yellowBlockPosX;
-                        g.setColor(Color.YELLOW);
-                        break;
-                    case "blue":
-                        current_x = blueBlockPosX;
-                        g.setColor(Color.BLUE);
-                        break; }
-
                 // Make a new instance of a block
                 Block b = new Block(beats[current_i].getBlockType());
 
@@ -206,8 +187,74 @@ public class Graphics extends JFrame {
 
             // For all currently active blocks...
             for (Block block : blockArrayList) {
+
+                // Set the appropriate color
+                switch (block.getBlockType()) {
+                    case "red":
+                        g.setColor(Color.RED);
+                        break;
+                    case "green":
+                        g.setColor(Color.GREEN);
+                        break;
+                    case "yellow":
+                        g.setColor(Color.YELLOW);
+                        break;
+                    case "blue":
+                        g.setColor(Color.BLUE);
+                        break; }
+
                 // Draw the block at the intended position
                 g.fillRect(block.getX(), block.getY(), 100, 100);
+
+                /* Dynamically draws the goal points such that they dynamically
+                fill when the keys are pressed. This gives visual feedback to the
+                player.
+
+                TODO: This is where game logic will go. Update combo and score,
+                 create bounds for accuracy judgement, and display those variables
+                 to the screen. */
+
+                g.setColor(Color.WHITE);
+
+                // W is not pressed
+                if (!game.iswPressed()) {
+                    g.drawRect(redBlockPosX, goalPosY,100,100);
+                }
+
+                // W is pressed
+                else if (game.iswPressed()) {
+                    g.fillRect(redBlockPosX, goalPosY,100,100);
+                }
+
+                // E is not pressed
+                if (!game.isePressed()) {
+                    g.drawRect(greenBlockPosX, goalPosY,100,100);
+                }
+
+                // E is pressed
+                else if (game.isePressed()) {
+                    g.fillRect(greenBlockPosX, goalPosY,100,100);
+                }
+
+                // O is not pressed
+                if (!game.isoPressed()) {
+                    g.drawRect(yellowBlockPosX, goalPosY,100,100);
+                }
+
+                // O is pressed
+                else if (game.isoPressed()) {
+                    g.fillRect(yellowBlockPosX, goalPosY,100,100);
+                }
+
+                // P is not pressed
+                if (!game.ispPressed()) {
+                    g.drawRect(blueBlockPosX, goalPosY,100,100);
+                }
+
+                // P is pressed
+                else if (game.ispPressed()) {
+                    g.fillRect(blueBlockPosX, goalPosY,100,100);
+                }
             }
         }
 
