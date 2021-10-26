@@ -52,7 +52,10 @@ public class Block extends Thread {
             case "blue":
                 x = blueBlockPosX;
                 break; }
-        this.blockType = blockType; }
+        this.blockType = blockType;
+
+        y = 0;
+    }
 
     /******************************************
      * Renders a block to the screen.

@@ -3,6 +3,8 @@ import java.awt.event.*;
 import javax.swing.*;
 import java.util.Random;
 import java.util.ArrayList;
+import java.lang.Math.*;
+
 
 /**************************************************************************
  * Class is currently in testing phases. Blocks will render to the screen,
@@ -87,8 +89,12 @@ public class Graphics extends JFrame {
                 for (int i = 0; i < blockArrayList.size(); i++) {
                     /* Remove them from the list if they are
                        past the screen. */
-                    if (blockArrayList.get(i).getY() >= 1080) {
+                    if (blockArrayList.get(i).getY() > 820) {
                         blockArrayList.remove(blockArrayList.get(i));
+
+                        // Reset the combo counter
+                        game.setCombo(0);
+
                         // Ensure that there is not an IndexOutOfBounds error
                         i++; }
 
@@ -185,6 +191,9 @@ public class Graphics extends JFrame {
             // Else, blocks have finished falling and we can now exit the game.
             else { System.exit(0); }
 
+            // The block that is going to be considered for judgement
+            Block candidateBlock = new Block("red");
+
             // For all currently active blocks...
             for (Block block : blockArrayList) {
 
@@ -201,61 +210,157 @@ public class Graphics extends JFrame {
                         break;
                     case "blue":
                         g.setColor(Color.BLUE);
-                        break; }
+                        break;
+                }
 
                 // Draw the block at the intended position
                 g.fillRect(block.getX(), block.getY(), 100, 100);
 
-                /* Dynamically draws the goal points such that they dynamically
-                fill when the keys are pressed. This gives visual feedback to the
-                player.
-
-                TODO: This is where game logic will go. Update combo and score,
-                 create bounds for accuracy judgement, and display those variables
-                 to the screen. */
-
-                g.setColor(Color.WHITE);
-
-                // W is not pressed
-                if (!game.iswPressed()) {
-                    g.drawRect(redBlockPosX, goalPosY,100,100);
-                }
-
-                // W is pressed
-                else if (game.iswPressed()) {
-                    g.fillRect(redBlockPosX, goalPosY,100,100);
-                }
-
-                // E is not pressed
-                if (!game.isePressed()) {
-                    g.drawRect(greenBlockPosX, goalPosY,100,100);
-                }
-
-                // E is pressed
-                else if (game.isePressed()) {
-                    g.fillRect(greenBlockPosX, goalPosY,100,100);
-                }
-
-                // O is not pressed
-                if (!game.isoPressed()) {
-                    g.drawRect(yellowBlockPosX, goalPosY,100,100);
-                }
-
-                // O is pressed
-                else if (game.isoPressed()) {
-                    g.fillRect(yellowBlockPosX, goalPosY,100,100);
-                }
-
-                // P is not pressed
-                if (!game.ispPressed()) {
-                    g.drawRect(blueBlockPosX, goalPosY,100,100);
-                }
-
-                // P is pressed
-                else if (game.ispPressed()) {
-                    g.fillRect(blueBlockPosX, goalPosY,100,100);
+                if ((block.getY() > (goalPosY - 99)) && (block.getY() < (goalPosY + 99))) {
+                    if (block.getY() > candidateBlock.getY()) {
+                        candidateBlock = block;
+                    }
                 }
             }
+
+            /* Dynamically draws the goal points such that they dynamically
+                fill when the keys are pressed. This gives visual
+                feedback to the player. Also draws game variables like
+                score and combo to the screen.
+
+               Determine the candidateBlock's position for judgement.
+               Uses the absolute value of the blocks position relative
+               to the goal point (at 720 pixels y-position) to determine
+               the accuracy level. For judgements that are too early, the
+               block's y-position will be within 620-719 pixels. For
+               judgements that are too late the block's y-position will
+               be within 721-820 pixels. The judgement areas are subdivided
+               into 5 categories, making each zone 20 pixels -- 10 for
+               early and 10 for late either side. The only exception is
+               Perfect, which is 1 pixel.
+             */
+
+            if (candidateBlock.getY() == 720) {
+                game.setJudgement("Perfect!!!");
+            }
+
+            else if (Math.abs(candidateBlock.getY() - 720) <= 10) {
+                game.setJudgement("Excellent");
+            }
+
+
+            else if (Math.abs(candidateBlock.getY() - 720) <= 20) {
+                game.setJudgement("Great");
+            }
+
+
+            else if (Math.abs(candidateBlock.getY() - 720) <= 30) {
+                game.setJudgement("Good");
+            }
+
+            else if (Math.abs(candidateBlock.getY() - 720) <= 40) {
+                game.setJudgement("OK");
+            }
+
+            else if (Math.abs(candidateBlock.getY() - 720) <= 50) {
+                game.setJudgement("Bad");
+            }
+
+            g.setColor(Color.WHITE);
+
+            // W is not pressed
+            if (!game.iswPressed()) {
+                g.drawRect(redBlockPosX, goalPosY,100,100);
+            }
+
+            // W is pressed
+            else if (game.iswPressed()) {
+                // Fill the goal point
+                g.fillRect(redBlockPosX, goalPosY,100,100);
+
+                // Check the color of the first block in the list
+                if (candidateBlock.getBlockType().equals("red")) {
+                    //Remove the block
+                    blockArrayList.remove(candidateBlock);
+
+                    // Add one to the score and combo
+                    game.setScore(game.getScore() + 1);
+                    game.setCombo(game.getCombo() + 1);
+                }
+            }
+
+            // E is not pressed
+            if (!game.isePressed()) {
+                g.drawRect(greenBlockPosX, goalPosY,100,100);
+            }
+
+            // E is pressed
+            else if (game.isePressed()) {
+                g.fillRect(greenBlockPosX, goalPosY,100,100);
+
+                // Check the color of the first block in the list
+                if (candidateBlock.getBlockType().equals("green")) {
+                    //Remove the block
+                    blockArrayList.remove(candidateBlock);
+
+                    // Add one to the score and combo
+                    game.setScore(game.getScore() + 1);
+                    game.setCombo(game.getCombo() + 1);
+                }
+            }
+
+            // O is not pressed
+            if (!game.isoPressed()) {
+                g.drawRect(yellowBlockPosX, goalPosY,100,100);
+            }
+
+            // O is pressed
+            else if (game.isoPressed()) {
+                g.fillRect(yellowBlockPosX, goalPosY,100,100);
+
+                // Check the color of the first block in the list
+                if (candidateBlock.getBlockType().equals("yellow")) {
+                    //Remove the block
+                    blockArrayList.remove(candidateBlock);
+
+                    // Add one to the score and combo
+                    game.setScore(game.getScore() + 1);
+                    game.setCombo(game.getCombo() + 1);
+                }
+            }
+
+            // P is not pressed
+            if (!game.ispPressed()) {
+                g.drawRect(blueBlockPosX, goalPosY,100,100);
+            }
+
+            // P is pressed
+            else if (game.ispPressed()) {
+                g.fillRect(blueBlockPosX, goalPosY,100,100);
+
+                // Check the color of the first block in the list
+                if (candidateBlock.getBlockType().equals("blue")) {
+                    //Remove the block
+                    blockArrayList.remove(candidateBlock);
+
+                    // Add one to the score and combo
+                    game.setScore(game.getScore() + 1);
+                    game.setCombo(game.getCombo() + 1);
+                }
+            }
+
+
+            /* TODO: Currently the values update every frame to match the
+                current position / times the button was pressed and not
+                when the button was pressed *successfully*. The values instead
+                need to be consistent with the last successful judgement and
+                score. */
+
+            // Set the font and the font size
+            g.setFont(new Font ("TimesRoman", Font.BOLD, 14));
+            // Draw combo and last judgement to the screen
+            g.drawString("Combo: " + game.getCombo(), 1080, 450);
+            g.drawString("Last Judgment: " + game.getJudgement(), 1080, 500);
         }
 
         // Default dimension is 1920x1080

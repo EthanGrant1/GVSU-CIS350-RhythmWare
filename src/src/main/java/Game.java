@@ -8,19 +8,32 @@
 public class Game {
 
     // The total score
-    int score = 0;
+    int score;
 
     // The current combo
-    int combo = 0;
+    int combo;
+
+    // Accuracy judgement
+    String judgement;
 
     // Boolean values to keep track of key presses
 
     /* TODO: Allow for the user to change keys to
         whatever keys they want via a setting. */
-    boolean wPressed = false;
-    boolean ePressed = false;
-    boolean oPressed = false;
-    boolean pPressed = false;
+    boolean wPressed;
+    boolean ePressed;
+    boolean oPressed;
+    boolean pPressed;
+
+    public Game() {
+        score = 0;
+        combo = 0;
+        wPressed = false;
+        ePressed = false;
+        oPressed = false;
+        pPressed = false;
+        judgement = "Bad";
+    }
 
     /* Change the boolean value based on whether or not
        the key is pressed or released. Allows for dynamic
@@ -72,6 +85,14 @@ public class Game {
 
     public void setCombo(int combo) {
         this.combo = combo;
+    }
+
+    public String getJudgement() {
+        return judgement;
+    }
+
+    public void setJudgement(String judgement) {
+        this.judgement = judgement;
     }
 
     public boolean iswPressed() {
