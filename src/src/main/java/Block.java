@@ -37,6 +37,8 @@ public class Block extends Thread {
         int yellowBlockPosX = 765;
         int blueBlockPosX = 875;
 
+        activeBlock = true;
+
         // Determine what lane the block occupies,
         // and set the x value to the constant position
         switch (blockType) {
@@ -51,6 +53,9 @@ public class Block extends Thread {
                 break;
             case "blue":
                 x = blueBlockPosX;
+                break;
+            default:
+                x = 0;
                 break; }
         this.blockType = blockType;
 

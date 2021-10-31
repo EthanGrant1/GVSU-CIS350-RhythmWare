@@ -79,9 +79,7 @@ public class Game {
         this.score = score;
     }
 
-    public int getCombo() {
-        return combo;
-    }
+    public int getCombo() { return combo; }
 
     public void setCombo(int combo) {
         this.combo = combo;
