@@ -1,5 +1,7 @@
+package main.java;
+
 import javax.swing.*;
-import java.awt.*;
+
 
 /*******************************************************************
  * public class GUI
@@ -8,7 +10,6 @@ import java.awt.*;
  *******************************************************************/
 public class GUI {
     public static void main(String args[]) {
-
         JFrame frame;
         // Setting up the main frame
         frame = new JFrame("RhythmWare Game");
