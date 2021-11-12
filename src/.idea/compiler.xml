@@ -9,6 +9,5 @@
         <module name="CIS350-RhythmWare" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel target="12" />
   </component>
 </project>

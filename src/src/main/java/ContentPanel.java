@@ -1,5 +1,3 @@
-package main.java;
-
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
@@ -116,7 +114,7 @@ public class ContentPanel extends JPanel {
     public JLabel getBG() {
         BufferedImage background = null;
         try {
-            background = ImageIO.read(new File("artifacts/Songs/songname/bg.jpg"));
+            background = ImageIO.read(new File("src/main/Assets/Songs/songname/bg.jpg"));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -131,7 +129,7 @@ public class ContentPanel extends JPanel {
         BufferedInputStream bufferedInputStream;
         Player player;
         try {
-            fileInputStream = new FileInputStream("artifacts/Songs/songname/song.mp3");
+            fileInputStream = new FileInputStream("src/main/Assets/Songs/songname/song.mp3");
             bufferedInputStream = new BufferedInputStream(fileInputStream);
             player = new Player(bufferedInputStream);
             player.play();
