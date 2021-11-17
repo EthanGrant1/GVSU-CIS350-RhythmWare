@@ -21,6 +21,8 @@ public class Block extends Thread {
     // What lane the block occupies
     private String blockType;
 
+    private float time = 0f;
+
     // The block is no longer in play
     public void deactivate() { activeBlock = false; }
 
@@ -43,66 +45,24 @@ public class Block extends Thread {
         // and set the x value to the constant position
         switch (blockType) {
             case "red":
-                x = redBlockPosX;
+                this.x = redBlockPosX;
                 break;
             case "green":
-                x = greenBlockPosX;
+                this.x = greenBlockPosX;
                 break;
             case "yellow":
-                x = yellowBlockPosX;
+                this.x = yellowBlockPosX;
                 break;
             case "blue":
-                x = blueBlockPosX;
+                this.x = blueBlockPosX;
                 break;
             default:
-                x = 0;
+                this.x = 0;
                 break; }
         this.blockType = blockType;
-
-        y = 0;
+        this.y = 0;
+        this.time = 0f;
     }
-
-    /******************************************
-     * Renders a block to the screen.
-     *
-     * @param g is the Graphics instance that is
-     * called whenever the Container which holds
-     * it is rendered to the screen.
-     ******************************************/
-    public void drawBlock(java.awt.Graphics g) {
-        // Blocks are 100x100 pixels
-        g.fillRect(x, y, 100, 100); }
-
-    /************************
-     * Moves a block down the
-     * screen by a set number
-     * of pixels.
-     ************************/
-    public void moveBlock() {
-        /* Block speed is the number
-           of pixels to move per frame
-           cycle. */
-        y += getBlockSpeed();
-
-        /* If the block is past the
-        screen, remove it from play */
-        if (y > 1080) { deactivate(); } }
-
-    /********************************************
-     * Running the method from the Thread class.
-     ********************************************/
-    @Override
-    public void run() {
-        try {
-            while (true) {
-                moveBlock();
-                if (activeBlock) { Thread.sleep(16); }
-
-                else {
-                    interrupt();
-                    break; } } }
-
-        catch(Exception e) { System.err.println(e.getMessage()); } }
 
     // Various getters and setters
     public int getX() { return x; }
@@ -123,4 +83,9 @@ public class Block extends Thread {
 
     public String getBlockType() { return blockType; }
 
-    public void setBlockType(String blockType) { this.blockType = blockType; } }
+    public void setBlockType(String blockType) { this.blockType = blockType; }
+
+    public float getTime() { return time; }
+
+    public void setTime(float time) { this.time = time; }
+}

@@ -20,7 +20,7 @@ public class ContentPanel extends JPanel {
     JPanel panel1;
     JButton previousButton, nextButton, easyButton, normalButton, hardButton;
 
-    public ContentPanel(String menu) {
+    public void addContentPanel(String menu) {
 
         // We will be using the GridBagLayout for the GUI
         setLayout(new GridBagLayout());
@@ -97,7 +97,8 @@ public class ContentPanel extends JPanel {
             start();
         }
 
-        if(menu.equals("Options")) {
+        if (menu.equals("Options")) {
+            // stuff goes in here
         }
     }
 
@@ -105,7 +106,7 @@ public class ContentPanel extends JPanel {
     public void changeMenu(String e) {
         // remove all previous menu parts and create new panel
         this.removeAll();
-        this.add(new ContentPanel(e));
+        this.addContentPanel(e);
         repaint();
         revalidate();
     }
@@ -119,8 +120,7 @@ public class ContentPanel extends JPanel {
             e.printStackTrace();
         }
         Image scaled = background.getScaledInstance(500, 281, Image.SCALE_SMOOTH);
-        JLabel picLabel = new JLabel(new ImageIcon(scaled));
-        return picLabel;
+        return new JLabel(new ImageIcon(scaled));
     }
     
     //method for playing the song in the song select menu
@@ -133,18 +133,14 @@ public class ContentPanel extends JPanel {
             bufferedInputStream = new BufferedInputStream(fileInputStream);
             player = new Player(bufferedInputStream);
             player.play();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (JavaLayerException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
+        } catch (JavaLayerException | IOException e) {
             e.printStackTrace();
         }
     }
 
     //plays song on separate thread to maintain gui functionality
     private void start(){
-        SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>() {
+        SwingWorker<Void, Void> worker = new SwingWorker<>() {
             @Override
             protected Void doInBackground() throws Exception {
                 playSong();
@@ -163,7 +159,6 @@ public class ContentPanel extends JPanel {
             //MAIN MENU BUTTONS
             if (event.getSource() == playButton) {
                 changeMenu("Song Select");
-                getBG();
             }
 
             if (event.getSource() == scoreButton) {

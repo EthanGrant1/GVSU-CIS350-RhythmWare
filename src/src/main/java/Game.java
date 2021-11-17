@@ -1,6 +1,3 @@
-
-
-
 /***********************************
  * Game logic (score, combo, button
  * presses, etc) are found here.
@@ -71,41 +68,23 @@ public class Game {
     }
 
     // Various getters and setters
-    public int getScore() {
-        return score;
-    }
+    public int getScore() { return score; }
 
-    public void setScore(int score) {
-        this.score = score;
-    }
+    public void setScore(int score) { this.score = score; }
 
     public int getCombo() { return combo; }
 
-    public void setCombo(int combo) {
-        this.combo = combo;
-    }
+    public void setCombo(int combo) { this.combo = combo; }
 
-    public String getJudgement() {
-        return judgement;
-    }
+    public String getJudgement() { return judgement; }
 
-    public void setJudgement(String judgement) {
-        this.judgement = judgement;
-    }
+    public void setJudgement(String judgement) { this.judgement = judgement; }
 
-    public boolean iswPressed() {
-        return wPressed;
-    }
+    public boolean iswPressed() { return wPressed; }
 
-    public boolean isePressed() {
-        return ePressed;
-    }
+    public boolean isePressed() { return ePressed; }
 
-    public boolean isoPressed() {
-        return oPressed;
-    }
+    public boolean isoPressed() { return oPressed; }
 
-    public boolean ispPressed() {
-        return pPressed;
-    }
+    public boolean ispPressed() { return pPressed; }
 }

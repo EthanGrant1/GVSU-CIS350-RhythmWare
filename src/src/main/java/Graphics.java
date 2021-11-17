@@ -3,7 +3,7 @@ import java.awt.event.*;
 import javax.swing.*;
 import java.util.Random;
 import java.util.ArrayList;
-import java.lang.Math.*;
+import java.lang.Math;
 
 
 /**************************************************************************
@@ -24,7 +24,7 @@ public class Graphics extends JFrame {
     int size = 1000;
 
     // An array of BeatKeepers which holds information about the blocks
-    BeatKeeper[] beats = new BeatKeeper[size];
+    Block[] beats = new Block[size];
 
     // How graphics will be drawn to the screen
     Draw d = new Draw();
@@ -54,25 +54,48 @@ public class Graphics extends JFrame {
             // Random number between 0 and 3 inclusive
             int randInt = rand.nextInt(4);
 
-            // Assign block to red lane
-            if (randInt == 0) {
-                beats[i] = new BeatKeeper(offset * i, "red"); }
+            switch (randInt) {
+                case 0:
+                    beats[i] = new Block("red");
+                    break;
 
-            // Assign block to green lane
-            if (randInt == 1) {
-                beats[i] = new BeatKeeper(offset * i, "green"); }
+                case 1:
+                    beats[i] = new Block("green");
+                    break;
 
-            // Assign block to yellow lane
-            if (randInt == 2) {
-                beats[i] = new BeatKeeper(offset * i, "yellow"); }
+                case 2:
+                    beats[i] = new Block("yellow");
+                    break;
 
-            // Assign block to blue lane
-            if (randInt == 3) {
-                beats[i] = new BeatKeeper(offset * i, "blue"); } }
+                case 3:
+                    beats[i] = new Block("blue");
+                    break;
+            }
+            // Time to spawn the block
+            beats[i].setTime(offset*i);
+
+            // Amount of pixels that the blocks are going to move per frame.
+            beats[i].setBlockSpeed(3);
+        }
     }
 
     // A prototype of the graphical rendering
-    public Graphics() {
+    public Graphics(String songToUse) {
+
+        if (songToUse.equals("random")) {
+            this.makeRandomBeatKeeper();
+        }
+
+        else {
+            System.out.println("Not a valid song.");
+            System.exit(1);
+        }
+
+        /*
+        TODO: Chart a song and put it here.
+         else if (songToUse.equals("SONG TITLE GOES HERE")) { }
+         */
+
         /* An ActionListener which is responsible for
            event handling and timing. Will be used by
            the Timer class. */
@@ -90,10 +113,13 @@ public class Graphics extends JFrame {
 
                 // For all active blocks' y-values...
                 for (int i = 0; i < blockArrayList.size(); i++) {
+
+                    Block temp = blockArrayList.get(i);
+
                     /* Remove them from the list if they are
                        past the screen. */
-                    if (blockArrayList.get(i).getY() > 820) {
-                        blockArrayList.remove(blockArrayList.get(i));
+                    if (temp.getY() > 840) {
+                        blockArrayList.remove(temp);
 
                         // Reset the combo counter
                         game.setCombo(0);
@@ -103,7 +129,7 @@ public class Graphics extends JFrame {
 
                     // Else, move it a set amount down the screen
                     else {
-                        blockArrayList.get(i).setY(blockArrayList.get(i).getY() + 3);
+                        temp.setY(temp.getY() + temp.getBlockSpeed());
                     } }
 
                 // Redraw the graphics with updated positions
@@ -132,8 +158,7 @@ public class Graphics extends JFrame {
      * graphics.
      **********************************************/
     public static void main (String [] args) {
-        Graphics g = new Graphics();
-        g.makeRandomBeatKeeper();
+        new Graphics("random");
     }
 
     /********************************************
@@ -179,7 +204,7 @@ public class Graphics extends JFrame {
             // If there are blocks still in the list
             if (current_i < beats.length) {
                 // Make a new instance of a block
-                Block b = new Block(beats[current_i].getBlockType());
+                Block b = beats[current_i];
 
                 // If the current block's time is equal to real time
                 if (beats[current_i].getTime() == (int)time) {
@@ -195,7 +220,7 @@ public class Graphics extends JFrame {
             else { System.exit(0); }
 
             // The block that is going to be considered for judgement
-            Block candidateBlock = new Block("This is a placeholder");
+            Block candidateBlock = new Block("");
 
             // For all currently active blocks...
             for (Block block : blockArrayList) {
@@ -219,7 +244,7 @@ public class Graphics extends JFrame {
                 // Draw the block at the intended position
                 g.fillRect(block.getX(), block.getY(), 100, 100);
 
-                if ((block.getY() > (goalPosY - 99)) && (block.getY() < (goalPosY + 99))) {
+                if ((block.getY() > (goalPosY - 100)) && (block.getY() < (goalPosY + 100))) {
                     if (block.getY() > candidateBlock.getY()) {
                         candidateBlock = block;
                     }
@@ -241,18 +266,10 @@ public class Graphics extends JFrame {
 
             // W is pressed
             else if (game.iswPressed()) {
-                // Fill the goal point
                 g.fillRect(redBlockPosX, goalPosY,100,100);
-
                 // Check the color of the first block in the list
                 if (candidateBlock.getBlockType().equals("red")) {
-                    //Judge and remove the block
-                    judgement = judge(candidateBlock);
-                    blockArrayList.remove(candidateBlock);
-
-                    // Add one to the score and combo
-                    game.setScore(game.getScore() + 1);
-                    game.setCombo(game.getCombo() + 1);
+                    Graphics.this.remove(candidateBlock);
                 }
             }
 
@@ -264,16 +281,9 @@ public class Graphics extends JFrame {
             // E is pressed
             else if (game.isePressed()) {
                 g.fillRect(greenBlockPosX, goalPosY,100,100);
-
                 // Check the color of the first block in the list
                 if (candidateBlock.getBlockType().equals("green")) {
-                    //Judge and remove the block
-                    judgement = judge(candidateBlock);
-                    blockArrayList.remove(candidateBlock);
-
-                    // Add one to the score and combo
-                    game.setScore(game.getScore() + 1);
-                    game.setCombo(game.getCombo() + 1);
+                    Graphics.this.remove(candidateBlock);
                 }
             }
 
@@ -285,16 +295,9 @@ public class Graphics extends JFrame {
             // O is pressed
             else if (game.isoPressed()) {
                 g.fillRect(yellowBlockPosX, goalPosY,100,100);
-
                 // Check the color of the first block in the list
                 if (candidateBlock.getBlockType().equals("yellow")) {
-                    //Judge and remove the block
-                    judgement = judge(candidateBlock);
-                    blockArrayList.remove(candidateBlock);
-
-                    // Add one to the score and combo
-                    game.setScore(game.getScore() + 1);
-                    game.setCombo(game.getCombo() + 1);
+                    Graphics.this.remove(candidateBlock);
                 }
             }
 
@@ -306,25 +309,11 @@ public class Graphics extends JFrame {
             // P is pressed
             else if (game.ispPressed()) {
                 g.fillRect(blueBlockPosX, goalPosY,100,100);
-
                 // Check the color of the first block in the list
                 if (candidateBlock.getBlockType().equals("blue")) {
-                    //Judge and remove the block
-                    judgement = judge(candidateBlock);
-                    blockArrayList.remove(candidateBlock);
-
-                    // Add one to the score and combo
-                    game.setScore(game.getScore() + 1);
-                    game.setCombo(game.getCombo() + 1);
+                    Graphics.this.remove(candidateBlock);
                 }
             }
-
-
-            /* TODO: Currently the values update every frame to match the
-                current position / times the button was pressed and not
-                when the button was pressed *successfully*. The values instead
-                need to be consistent with the last successful judgement and
-                score. */
 
             // Set the font and the font size
             g.setFont(new Font ("TimesRoman", Font.BOLD, 14));
@@ -339,7 +328,6 @@ public class Graphics extends JFrame {
             return new Dimension(1920, 1080); } }
 
     /***************************************************************
-     *
      * Determine the candidateBlock's position for judgement.
      * Uses the absolute value of the blocks position relative
      * to the goal point (at 720 pixels y-position) to determine
@@ -355,30 +343,32 @@ public class Graphics extends JFrame {
      * @return is the String representation of the judgement.
      ***************************************************************/
     public String judge(Block candidateBlock) {
-            if (candidateBlock.getY() == 720) {
-                return "Perfect!!!";
-            }
 
-            else if (Math.abs(candidateBlock.getY() - 720) <= 10) {
-                return "Excellent";
-            }
+        int abs = Math.abs(candidateBlock.getY() - 720);
 
-            else if (Math.abs(candidateBlock.getY() - 720) <= 20) {
-                return "Great";
-            }
+        if (candidateBlock.getY() == 720) { return "Perfect!!!"; }
 
-            else if (Math.abs(candidateBlock.getY() - 720) <= 30) {
-                return "Good";
-            }
+        else if (abs <= 20) { return "Excellent"; }
 
-            else if (Math.abs(candidateBlock.getY() - 720) <= 40) {
-                return "OK";
-            }
+        else if (abs <= 40) { return "Great"; }
 
-            else if (Math.abs(candidateBlock.getY() - 720) <= 50) {
-                return "Bad";
-            }
+        else if (abs <= 60) { return "Good"; }
 
-            return "Error";
-        }
+        else if (abs <= 80) { return "OK"; }
+
+        else if (abs <= 100) { return "Bad"; }
+
+        else { return "Error"; } }
+
+    /* Removes a block from play, given a candidateBlock
+       chosen from the blockArrayList */
+    public void remove (Block candidateBlock) {
+        //Judge and remove the block
+        judgement = judge(candidateBlock);
+        blockArrayList.remove(candidateBlock);
+
+        // Add one to the score and combo
+        game.setScore(game.getScore() + 1);
+        game.setCombo(game.getCombo() + 1);
+    }
 }
