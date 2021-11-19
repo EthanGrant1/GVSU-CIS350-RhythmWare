@@ -1,12 +1,12 @@
-import java.awt.*;
-import javax.swing.*;
+import java.io.*;
+import java.util.Random;
 
 /****************************************************************************************************
  * This class is interpreted from DynamicBeat's Note.java which can be found here:
  * https://github.com/JiwooL0920/DynamicBeat/blob/master/Dynamic%20Beat/src/dynamic_beat_17/Note.java
  ***************************************************************************************************/
 
-public class Block extends Thread {
+public class Block {
 
     // The values for the position of the blocks
     private int x = 0;
@@ -16,7 +16,7 @@ public class Block extends Thread {
     public int blockSpeed;
 
     // Whether or not the block is currently "in play" or not
-    private boolean activeBlock = true;
+    private boolean activeBlock;
 
     // What lane the block occupies
     private String blockType;
@@ -88,4 +88,53 @@ public class Block extends Thread {
     public float getTime() { return time; }
 
     public void setTime(float time) { this.time = time; }
+
+    // Hardcoded chart for Pandora Palace
+    // TODO: Chart lane colors for all notes
+    public static Block[] makePandora() throws IOException {
+        // Initialize the size of the chart
+        Block[] pandora = new Block[525];
+
+        /* Chart was timed in 30FPS, so we need
+           to multiply the frames by 2 */
+        float offset = (1f/60f)*2f;
+
+        // Read the note times from a file
+        File f = new File("src/main/Assets/Songs/PandoraPalace/NoteTimes.txt");
+        BufferedReader b = new BufferedReader(new FileReader(f));
+
+        // Randomly assign lanes for now
+        Random rand = new Random();
+        for (int i = 0; i < pandora.length-1; i++) {
+            int randInt = rand.nextInt(4);
+            switch (randInt) {
+                case 0:
+                    pandora[i] = new Block("red");
+                    break;
+
+                case 1:
+                    pandora[i] = new Block("green");
+                    break;
+
+                case 2:
+                    pandora[i] = new Block("yellow");
+                    break;
+
+                case 3:
+                    pandora[i] = new Block("blue");
+                    break;
+            }
+            // Blocks move 15 pixels / frame
+            pandora[i].setBlockSpeed(15);
+        }
+
+        String read;
+        int j = 0;
+        while ((read = b.readLine()) != null && j < pandora.length-1) {
+            int frame = Integer.parseInt(read);
+            pandora[j].setTime((float)frame *offset);
+            j++;
+        }
+        return pandora;
+    }
 }

@@ -1,6 +1,7 @@
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
+import java.io.IOException;
 import java.util.Random;
 import java.util.ArrayList;
 import java.lang.Math;
@@ -75,26 +76,25 @@ public class Graphics extends JFrame {
             beats[i].setTime(offset*i);
 
             // Amount of pixels that the blocks are going to move per frame.
-            beats[i].setBlockSpeed(3);
+            beats[i].setBlockSpeed(15);
         }
     }
 
     // A prototype of the graphical rendering
-    public Graphics(String songToUse) {
+    public Graphics(String songToUse) throws IOException {
 
         if (songToUse.equals("random")) {
             this.makeRandomBeatKeeper();
+        }
+
+        else if (songToUse.equals("Pandora Palace")) {
+            beats = Block.makePandora();
         }
 
         else {
             System.out.println("Not a valid song.");
             System.exit(1);
         }
-
-        /*
-        TODO: Chart a song and put it here.
-         else if (songToUse.equals("SONG TITLE GOES HERE")) { }
-         */
 
         /* An ActionListener which is responsible for
            event handling and timing. Will be used by
@@ -109,7 +109,7 @@ public class Graphics extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                time += 0.01666666666f;
+                time += (1f/60f);
 
                 // For all active blocks' y-values...
                 for (int i = 0; i < blockArrayList.size(); i++) {
@@ -157,8 +157,8 @@ public class Graphics extends JFrame {
      * This main class is just used for testing the
      * graphics.
      **********************************************/
-    public static void main (String [] args) {
-        new Graphics("random");
+    public static void main (String [] args) throws IOException {
+        new Graphics("Pandora Palace");
     }
 
     /********************************************
@@ -206,8 +206,8 @@ public class Graphics extends JFrame {
                 // Make a new instance of a block
                 Block b = beats[current_i];
 
-                // If the current block's time is equal to real time
-                if (beats[current_i].getTime() == (int)time) {
+                // If the current block's time is approximates real time
+                if (Math.abs(beats[current_i].getTime() - time) < 0.001f) {
                     // Add it to the currently active blocks
                     blockArrayList.add(b);
 

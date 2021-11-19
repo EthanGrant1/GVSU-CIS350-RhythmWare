@@ -115,7 +115,7 @@ public class ContentPanel extends JPanel {
     public JLabel getBG() {
         BufferedImage background = null;
         try {
-            background = ImageIO.read(new File("src/main/Assets/Songs/songname/bg.jpg"));
+            background = ImageIO.read(new File("src/main/Assets/Songs/PandoraPalace/DeltaruneBG.jpg"));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -129,7 +129,7 @@ public class ContentPanel extends JPanel {
         BufferedInputStream bufferedInputStream;
         Player player;
         try {
-            fileInputStream = new FileInputStream("src/main/Assets/Songs/songname/song.mp3");
+            fileInputStream = new FileInputStream("src/main/Assets/Songs/PandoraPalace/PandoraPalace.mp3");
             bufferedInputStream = new BufferedInputStream(fileInputStream);
             player = new Player(bufferedInputStream);
             player.play();
