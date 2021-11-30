@@ -22,7 +22,7 @@ Requirements for the game will be showcased in this section. These are guideline
 | :------------: | :---------------------:															|
 | FR6  | The speed of a block moving across the screen shall be user defineable within an options menu.								|
 | FR7  | The game's internal system that handles key strokes shall not have any responiveness issues.								|
-| :------------: | -:                                                   |
+| :------------: | :--                                                  |
 | FR7A | 	- A user's inputs for each key shall be calculated seperately, as to avoid overlap.								|
 | FR7B |	- A user's inputs shall be calculated the frame after the input was registered, as to not cause an input to go undetected.			|
 | :------------: | :---------------------:															|
@@ -54,7 +54,7 @@ Requirements for the game will be showcased in this section. These are guideline
 | Requirement ID | Requirement Description 															|
 | :------------: | :---------------------: 															|
 | NFR11  | The game's graphics shall not include any graphics that are in accordance with the following:							|
-| :------------: | -:                                                   |
+| :------------: | :--                                                  |
 | NFR11A | 	- Assets shall not include colors that are of high saturation, such that the contrast causes the color scheme to be displeasing.		|
 | NFR11B |	- Images, colors, and text, shall not pose a challenge when a user is trying to read them, or parse visual information.				|
 | NFR11C |	- Colors and lights shall not flash rapidly (16 frames per second or faster) as to not cause eye strain or epileptic reactions..		|
