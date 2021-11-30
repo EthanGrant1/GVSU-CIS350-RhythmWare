@@ -1,10 +1,13 @@
 import javax.imageio.ImageIO;
 import javax.swing.*;
+import javax.swing.border.TitledBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.*;
+import java.util.Scanner;
+
 import javazoom.jl.decoder.JavaLayerException;
 import javazoom.jl.player.Player;
 
@@ -17,83 +20,83 @@ public class ContentPanel extends JPanel {
     JButton playButton, scoreButton, optionButton, quitButton;
 
     // Song Menu
-    JPanel panel1;
+    JPanel panel1, difficultyPanel, scores;
+    JLabel title, artist, bpm;
     JButton previousButton, nextButton, easyButton, normalButton, hardButton;
+    TitledBorder border = BorderFactory.createTitledBorder("Scores");
+
 
     public void addContentPanel(String menu) {
 
-        // We will be using the GridBagLayout for the GUI
-        setLayout(new GridBagLayout());
-
-        // GridBagConstraints so we can set the area in which am
-        // element can and cannot inhabit
-        GridBagConstraints c = new GridBagConstraints();
+        // We will be using the BorderLayout for the GUI
+        setLayout(new BorderLayout());
 
         if (menu.equals("Main Menu")) {
-            // Fills horizontal space
-            c.fill = GridBagConstraints.HORIZONTAL;
-            // No need for padding on the x and y axis
-            c.weightx = 0;
-            c.weighty = 0;
-            // Place buttons in the center of the screen
-            c.gridx = GridBagConstraints.CENTER;
-            c.gridy = GridBagConstraints.CENTER;
-            // Size of the grid x-axis
-            c.gridwidth = 1;
-            // Button height
-            c.ipady = 40;
-            // Button width
-            c.ipadx = 500;
 
-            // Add the buttons to the GUI
+            JPanel subPanel = new JPanel();
+            subPanel.setLayout(new BorderLayout());
+
+            // Add the buttons to the sub panel
             playButton = new JButton("Play Game");
-            c.gridy = 1;
-            add(playButton, c);
-
-            scoreButton = new JButton("High Scores");
-            c.gridy = 2;
-            add(scoreButton, c);
+            subPanel.add(playButton, BorderLayout.NORTH);
 
             optionButton = new JButton("Options");
-            c.gridy = 3;
-            add(optionButton, c);
+            subPanel.add(optionButton, BorderLayout.CENTER);
 
             quitButton = new JButton("Quit Game");
-            c.gridy = 4;
-            add(quitButton, c);
+            subPanel.add(quitButton, BorderLayout.SOUTH);
+
+            //adding sub panel to center of main menu panel
+            add(subPanel, BorderLayout.CENTER);
 
             // Register the action listeners
             playButton.addActionListener(new ButtonListener());
-            scoreButton.addActionListener(new ButtonListener());
             optionButton.addActionListener(new ButtonListener());
             quitButton.addActionListener(new ButtonListener());
         }
 
         if (menu.equals("Song Select")) {
-            c.weightx = 0;
-            c.weighty = 0;
-            c.ipady = 1080;
+            //Default buttons
+            previousButton = new JButton("<");
+            add(previousButton, BorderLayout.WEST);
 
-            previousButton = new JButton("Previous");
-            c.gridx = 0;
-            c.anchor = GridBagConstraints.LINE_START;
-            add(previousButton, c);
+            nextButton = new JButton(">");
+            add(nextButton, BorderLayout.EAST);
 
-            nextButton = new JButton("Next");
-            c.gridx = 2;
-            c.anchor = GridBagConstraints.LINE_END;
-            add(nextButton, c);
+            difficultyPanel = new JPanel();
+            easyButton = new JButton("Easy");
+            easyButton.setPreferredSize(new Dimension(600, 25));
+            difficultyPanel.add(easyButton, BorderLayout.WEST);
 
+            normalButton = new JButton("Normal");
+            normalButton.setPreferredSize(new Dimension(600, 25));
+            difficultyPanel.add(normalButton, BorderLayout.CENTER);
+
+            hardButton = new JButton("Hard");
+            hardButton.setPreferredSize(new Dimension(600, 25));
+            difficultyPanel.add(hardButton, BorderLayout.EAST);
+
+
+            //Panel That Contains BG and Song Information
             panel1 = new JPanel();
-            c.ipadx = 1740;
-            c.fill = GridBagConstraints.BOTH;
-            c.weightx = 1.0;
-            c.weighty = 1.0;
-            c.gridx = 1;
-            c.anchor = GridBagConstraints.CENTER;
+            panel1.setLayout(new BorderLayout());
             panel1.setBorder(BorderFactory.createEtchedBorder());
-            panel1.add(getBG());
-            add(panel1, c);
+            panel1.add(getBG(), BorderLayout.EAST);
+            title = new JLabel(getSongInformation()[0]);
+            title.setFont(new Font("Verdana",1,40));
+//            artist = new JLabel(getSongInformation()[1]);
+//            artist.setFont(new Font("Verdana",1,15));
+//            bpm = new JLabel(getSongInformation()[2]);
+//            bpm.setFont(new Font("Verdana",1,15));
+            add(title, BorderLayout.NORTH);
+//            panel1.add(artist, BorderLayout.NORTH);
+//            panel1.add(bpm, BorderLayout.EAST);
+            add(panel1, BorderLayout.CENTER);
+            panel1.add(difficultyPanel, BorderLayout.SOUTH);
+            scores = new JPanel();
+            scores.setPreferredSize(new Dimension(220, 400));
+            scores.setBorder(border);
+            panel1.add(scores, BorderLayout.WEST);
             start();
         }
 
@@ -112,17 +115,16 @@ public class ContentPanel extends JPanel {
     }
 
     //method for getting menu background for the song
-    public JLabel getBG() {
+    public JLabel getBG(){
         BufferedImage background = null;
         try {
             background = ImageIO.read(new File("src/main/Assets/Songs/PandoraPalace/DeltaruneBG.jpg"));
         } catch (IOException e) {
             e.printStackTrace();
         }
-        Image scaled = background.getScaledInstance(500, 281, Image.SCALE_SMOOTH);
+        Image scaled = background.getScaledInstance(1600, 900, Image.SCALE_SMOOTH);
         return new JLabel(new ImageIcon(scaled));
     }
-    
     //method for playing the song in the song select menu
     public static void playSong() {
         FileInputStream fileInputStream;
@@ -149,7 +151,31 @@ public class ContentPanel extends JPanel {
         };
         worker.execute();
     }
-
+    public String[] getSongInformation(){
+        String[] info = new String[3];
+        File file = new File("src/main/Assets/Songs/PandoraPalace/SongInfo.txt");
+        Scanner scanner = null;
+        try {
+            scanner = new Scanner(file);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        int lineNum = 0;
+        while (scanner.hasNextLine()) {
+            String line = scanner.nextLine();
+            lineNum++;
+            if (lineNum == 1) {
+                info[0] = line;
+            }
+            if (lineNum == 2) {
+                info[1] = line;
+            }
+            if (lineNum == 3) {
+                info[2] = line;
+            }
+        }
+        return info;
+    }
     private class ButtonListener implements ActionListener {
 
         // TODO: Add all events to this ActionEvent list.
