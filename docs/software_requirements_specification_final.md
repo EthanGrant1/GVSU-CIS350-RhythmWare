@@ -60,9 +60,9 @@ Requirements for the game will be showcased in this section. These are guideline
 
 The purpose of this section is to showcase various artifacts that were produced during the production of the game. These can include prototype art, mockups, charts, etc.
 
-* [https://github.com/EthanGrant1/GVSU-CIS350-RhythmWare/tree/master/artifacts/Concepts/RhythmWareC1.pdf](RhythmWareC1.pdf)
-* [https://github.com/EthanGrant1/GVSU-CIS350-RhythmWare/tree/master/artifacts/Concepts/RhythmWareC2.pdf](RhythmWareC2.pdf)
-* [https://github.com/EthanGrant1/GVSU-CIS350-RhythmWare/tree/master/artifacts/Concepts/RhythmWareC3.pdf](RhythmWareC3.pdf)
-* [https://github.com/EthanGrant1/GVSU-CIS350-RhythmWare/tree/master/artifacts/use_case_diagrams/Gameplay-Use-Case-Diagram.png](Gameplay-Use-Case-Diagram.png)
-* [https://github.com/EthanGrant1/GVSU-CIS350-RhythmWare/tree/master/artifacts/use_case_diagrams/UseCase-OptionsMenu.pdf](UseCase-OptionsMenu.pdf)
-* [https://github.com/EthanGrant1/GVSU-CIS350-RhythmWare/tree/master/artifacts/use case song select.png](use case song select.png)
+* [RhythmWareC1.pdf](https://github.com/EthanGrant1/GVSU-CIS350-RhythmWare/tree/master/artifacts/Concepts/RhythmWareC1.pdf)
+* [RhythmWareC2.pdf](https://github.com/EthanGrant1/GVSU-CIS350-RhythmWare/tree/master/artifacts/Concepts/RhythmWareC2.pdf)
+* [RhythmWareC3.pdf](https://github.com/EthanGrant1/GVSU-CIS350-RhythmWare/tree/master/artifacts/Concepts/RhythmWareC3.pdf)
+* [Gameplay-Use-Case-Diagram.png](https://github.com/EthanGrant1/GVSU-CIS350-RhythmWare/tree/master/artifacts/use_case_diagrams/Gameplay-Use-Case-Diagram.png)
+* [UseCase-OptionsMenu.pdf](https://github.com/EthanGrant1/GVSU-CIS350-RhythmWare/tree/master/artifacts/use_case_diagrams/UseCase-OptionsMenu.pdf)
+* [use case song select.png](https://github.com/EthanGrant1/GVSU-CIS350-RhythmWare/tree/master/artifacts/use case song select.png)
