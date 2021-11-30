@@ -65,4 +65,4 @@ The purpose of this section is to showcase various artifacts that were produced 
 * [RhythmWareC3.pdf](https://github.com/EthanGrant1/GVSU-CIS350-RhythmWare/tree/master/artifacts/Concepts/RhythmWareC3.pdf)
 * [Gameplay-Use-Case-Diagram.png](https://github.com/EthanGrant1/GVSU-CIS350-RhythmWare/tree/master/artifacts/use_case_diagrams/Gameplay-Use-Case-Diagram.png)
 * [UseCase-OptionsMenu.pdf](https://github.com/EthanGrant1/GVSU-CIS350-RhythmWare/tree/master/artifacts/use_case_diagrams/UseCase-OptionsMenu.pdf)
-* [use case song select.png](https://github.com/EthanGrant1/GVSU-CIS350-RhythmWare/tree/master/artifacts/use case song select.png)
+* [use_case_song_select.png](https://github.com/EthanGrant1/GVSU-CIS350-RhythmWare/tree/master/artifacts/use_case_song_select.png)
