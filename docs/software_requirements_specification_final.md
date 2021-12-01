@@ -21,7 +21,7 @@ Requirements for the game will be showcased in this section. These are guideline
 | Requirement ID | Requirement Description															|
 | :------------: | :---------------------:															|
 | FR6  | The speed of a block moving across the screen shall be user defineable within an options menu.								|
-| FR7  | The game's internal system that handles key strokes shall not have any responiveness issues.								|
+| FR7  | The game's internal system that handles key strokes shall not have any responsiveness issues.								|
 | FR7A | 	- A user's inputs for each key shall be calculated seperately, as to avoid overlap.								|
 | FR7B |	- A user's inputs shall be calculated the frame after the input was registered, as to not cause an input to go undetected.			|
 | FR8  | The gameplay loop shall begin upon pressing the "Play Game" button on the main screen.									|
