@@ -97,7 +97,7 @@ public class Block {
 
         /* Chart was timed in 30FPS, so we need
            to multiply the frames by 2 */
-        float offset = (1f/60f)*2f;
+        float offset = 1f/60f;
 
         // Read the note times from a file
         File f = new File("src/main/Assets/Songs/PandoraPalace/NoteTimes.txt");
@@ -131,8 +131,8 @@ public class Block {
         String read;
         int j = 0;
         while ((read = b.readLine()) != null && j < pandora.length-1) {
-            int frame = Integer.parseInt(read);
-            pandora[j].setTime((float)frame *offset);
+            int frame = Integer.parseInt(read)*2;
+            pandora[j].setTime((float)frame * offset);
             j++;
         }
         return pandora;

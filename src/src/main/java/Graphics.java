@@ -8,13 +8,7 @@ import java.lang.Math;
 
 
 /**************************************************************************
- * Class is currently in testing phases. Blocks will render to the screen,
- * but are not continuous, nor do they render at proper y positions due to
- * moving the intended first position.
- *
- * TODO:
- *  Dynamically create timing for every block so that they can be rendered
- *  in different time signatures (4th, 8th, 16th, etc).
+ * Graphics class that renders objects to the screen.
  **************************************************************************/
 public class Graphics extends JFrame {
 
@@ -25,7 +19,7 @@ public class Graphics extends JFrame {
     int size = 1000;
 
     // An array of BeatKeepers which holds information about the blocks
-    Block[] beats = new Block[size];
+    Block[] beats;
 
     // How graphics will be drawn to the screen
     Draw d = new Draw();
@@ -41,6 +35,9 @@ public class Graphics extends JFrame {
 
     // The judgement for the timing of a user's key press
     String judgement = "";
+
+    // A constant value for perfect score
+    double perfect;
 
     // How we will keep track of all game variables
     public static Game game = new Game();
@@ -84,11 +81,18 @@ public class Graphics extends JFrame {
     public Graphics(String songToUse) throws IOException {
 
         if (songToUse.equals("random")) {
+            beats = new Block[size];
             this.makeRandomBeatKeeper();
         }
 
         else if (songToUse.equals("Pandora Palace")) {
             beats = Block.makePandora();
+            perfect = beats.length * game.getPERFECT_SCORE();
+        }
+
+        // For testing
+        else if (songToUse.equals("empty")) {
+            beats = new Block[0];
         }
 
         else {
@@ -158,7 +162,7 @@ public class Graphics extends JFrame {
      * graphics.
      **********************************************/
     public static void main (String [] args) throws IOException {
-        new Graphics("Pandora Palace");
+        new Graphics("empty");
     }
 
     /********************************************
@@ -176,33 +180,33 @@ public class Graphics extends JFrame {
          * @param g is the Graphics instance that is
          * called whenever the Container which holds
          * it is rendered to the screen.
-         */
+         ******************************************/
         public void paint(java.awt.Graphics g) {
             super.paintComponents(g);
 
-            // Render a black background
-            g.setColor(Color.BLACK);
-            g.fillRect(0, 0, 1920, 1080);
-
-            // Draw lanes with 110 pixel gaps so blocks aren't flush
-            g.setColor(Color.WHITE);
-            g.drawLine(540, 0, 540, 1080);
-            g.drawLine(650, 0, 650, 1080);
-            g.drawLine(760, 0, 760, 1080);
-            g.drawLine(870, 0, 870, 1080);
-            g.drawLine(980, 0, 980, 1080);
-
-            // Constants for block x-positions
-            int redBlockPosX = 545;
-            int greenBlockPosX = 655;
-            int yellowBlockPosX = 765;
-            int blueBlockPosX = 875;
-
-            // Constant for goal y-position
-            int goalPosY = 720;
-
             // If there are blocks still in the list
             if (current_i < beats.length) {
+                // Render a black background
+                g.setColor(Color.BLACK);
+                g.fillRect(0, 0, 1920, 1080);
+
+                // Draw lanes with 110 pixel gaps so blocks aren't flush
+                g.setColor(Color.WHITE);
+                g.drawLine(540, 0, 540, 1080);
+                g.drawLine(650, 0, 650, 1080);
+                g.drawLine(760, 0, 760, 1080);
+                g.drawLine(870, 0, 870, 1080);
+                g.drawLine(980, 0, 980, 1080);
+
+                // Constants for block x-positions
+                int redBlockPosX = 545;
+                int greenBlockPosX = 655;
+                int yellowBlockPosX = 765;
+                int blueBlockPosX = 875;
+
+                // Constant for goal y-position
+                int goalPosY = 720;
+
                 // Make a new instance of a block
                 Block b = beats[current_i];
 
@@ -214,113 +218,140 @@ public class Graphics extends JFrame {
                     // Add 1 to current_i
                     current_i++;
                 }
-            }
+                // The block that is going to be considered for judgement
+                Block candidateBlock = new Block("");
 
-            // Else, blocks have finished falling and we can now exit the game.
-            else { System.exit(0); }
+                // For all currently active blocks...
+                for (Block block : blockArrayList) {
 
-            // The block that is going to be considered for judgement
-            Block candidateBlock = new Block("");
+                    // Set the appropriate color
+                    switch (block.getBlockType()) {
+                        case "red":
+                            g.setColor(Color.RED);
+                            break;
+                        case "green":
+                            g.setColor(Color.GREEN);
+                            break;
+                        case "yellow":
+                            g.setColor(Color.YELLOW);
+                            break;
+                        case "blue":
+                            g.setColor(Color.BLUE);
+                            break;
+                    }
 
-            // For all currently active blocks...
-            for (Block block : blockArrayList) {
+                    // Draw the block at the intended position
+                    g.fillRect(block.getX(), block.getY(), 100, 100);
 
-                // Set the appropriate color
-                switch (block.getBlockType()) {
-                    case "red":
-                        g.setColor(Color.RED);
-                        break;
-                    case "green":
-                        g.setColor(Color.GREEN);
-                        break;
-                    case "yellow":
-                        g.setColor(Color.YELLOW);
-                        break;
-                    case "blue":
-                        g.setColor(Color.BLUE);
-                        break;
-                }
-
-                // Draw the block at the intended position
-                g.fillRect(block.getX(), block.getY(), 100, 100);
-
-                if ((block.getY() > (goalPosY - 100)) && (block.getY() < (goalPosY + 100))) {
-                    if (block.getY() > candidateBlock.getY()) {
-                        candidateBlock = block;
+                    if ((block.getY() > (goalPosY - 100)) && (block.getY() < (goalPosY + 100))) {
+                        if (block.getY() > candidateBlock.getY()) {
+                            candidateBlock = block;
+                        }
                     }
                 }
-            }
 
-            /* Dynamically draws the goal points such that they dynamically
+                /* Dynamically draws the goal points such that they dynamically
                 fill when the keys are pressed. This gives visual
                 feedback to the player. Also draws game variables like
                 score and combo to the screen.
-             */
+                */
 
-            g.setColor(Color.WHITE);
+                g.setColor(Color.WHITE);
 
-            // W is not pressed
-            if (!game.iswPressed()) {
-                g.drawRect(redBlockPosX, goalPosY,100,100);
-            }
-
-            // W is pressed
-            else if (game.iswPressed()) {
-                g.fillRect(redBlockPosX, goalPosY,100,100);
-                // Check the color of the first block in the list
-                if (candidateBlock.getBlockType().equals("red")) {
-                    Graphics.this.remove(candidateBlock);
+                // W is not pressed
+                if (!game.iswPressed()) {
+                    g.drawRect(redBlockPosX, goalPosY,100,100);
                 }
-            }
 
-            // E is not pressed
-            if (!game.isePressed()) {
-                g.drawRect(greenBlockPosX, goalPosY,100,100);
-            }
-
-            // E is pressed
-            else if (game.isePressed()) {
-                g.fillRect(greenBlockPosX, goalPosY,100,100);
-                // Check the color of the first block in the list
-                if (candidateBlock.getBlockType().equals("green")) {
-                    Graphics.this.remove(candidateBlock);
+                // W is pressed
+                else if (game.iswPressed()) {
+                    g.fillRect(redBlockPosX, goalPosY,100,100);
+                    // Check the color of the first block in the list
+                    if (candidateBlock.getBlockType().equals("red")) {
+                        Graphics.this.remove(candidateBlock);
+                    }
                 }
-            }
 
-            // O is not pressed
-            if (!game.isoPressed()) {
-                g.drawRect(yellowBlockPosX, goalPosY,100,100);
-            }
-
-            // O is pressed
-            else if (game.isoPressed()) {
-                g.fillRect(yellowBlockPosX, goalPosY,100,100);
-                // Check the color of the first block in the list
-                if (candidateBlock.getBlockType().equals("yellow")) {
-                    Graphics.this.remove(candidateBlock);
+                // E is not pressed
+                if (!game.isePressed()) {
+                    g.drawRect(greenBlockPosX, goalPosY,100,100);
                 }
-            }
 
-            // P is not pressed
-            if (!game.ispPressed()) {
-                g.drawRect(blueBlockPosX, goalPosY,100,100);
-            }
-
-            // P is pressed
-            else if (game.ispPressed()) {
-                g.fillRect(blueBlockPosX, goalPosY,100,100);
-                // Check the color of the first block in the list
-                if (candidateBlock.getBlockType().equals("blue")) {
-                    Graphics.this.remove(candidateBlock);
+                // E is pressed
+                else if (game.isePressed()) {
+                    g.fillRect(greenBlockPosX, goalPosY,100,100);
+                    // Check the color of the first block in the list
+                    if (candidateBlock.getBlockType().equals("green")) {
+                        Graphics.this.remove(candidateBlock);
+                    }
                 }
+
+                // O is not pressed
+                if (!game.isoPressed()) {
+                    g.drawRect(yellowBlockPosX, goalPosY,100,100);
+                }
+
+                // O is pressed
+                else if (game.isoPressed()) {
+                    g.fillRect(yellowBlockPosX, goalPosY,100,100);
+                    // Check the color of the first block in the list
+                    if (candidateBlock.getBlockType().equals("yellow")) {
+                        Graphics.this.remove(candidateBlock);
+                    }
+                }
+
+                // P is not pressed
+                if (!game.ispPressed()) {
+                    g.drawRect(blueBlockPosX, goalPosY,100,100);
+                }
+
+                // P is pressed
+                else if (game.ispPressed()) {
+                    g.fillRect(blueBlockPosX, goalPosY,100,100);
+                    // Check the color of the first block in the list
+                    if (candidateBlock.getBlockType().equals("blue")) {
+                        Graphics.this.remove(candidateBlock);
+                    }
+                }
+
+                // Set the font and the font size
+                g.setFont(new Font ("TimesRoman", Font.BOLD, 14));
+                // Draw score values to the screen
+                g.drawString("Score: " + (game.getScore() / perfect)*100 + "%", 1080, 200);
+                g.drawString("Combo: " + game.getCombo(), 1080, 250);
+                g.drawString("Last Judgment: " + judgement, 1080, 300);
+                g.drawString("Number of Perfects: " + game.getNumPerfects(), 1080, 350);
+                g.drawString("Number of Excellents: " + game.getNumExcellents(), 1080, 400);
+                g.drawString("Number of Greats: " + game.getNumGreats(), 1080, 450);
+                g.drawString("Number of Goods: " + game.getNumGoods(), 1080, 500);
+                g.drawString("Number of OKs: " + game.getNumOKs(), 1080, 550);
+                g.drawString("Number of Bads: " + game.getNumBads(), 1080, 600);
             }
 
-            // Set the font and the font size
-            g.setFont(new Font ("TimesRoman", Font.BOLD, 14));
-            // Draw combo and last judgement to the screen
-            g.drawString("Score: " + game.getScore(), 1080, 400);
-            g.drawString("Combo: " + game.getCombo(), 1080, 450);
-            g.drawString("Last Judgment: " + judgement, 1080, 500);
+            // Else, blocks have finished falling Display the end screen.
+
+            // TODO: Currently a mockup. Can be improved.
+            else {
+                g.setColor(Color.BLACK);
+                g.fillRect(0, 0, 1920, 1080);
+
+                // Set the font and the font size
+                g.setColor(Color.WHITE);
+                g.setFont(new Font ("TimesRoman", Font.BOLD, 40));
+                g.drawString("Congrats!!! Here are your results...", 470, 200);
+                g.drawString("------------------------------------------------", 470, 220);
+
+                g.setFont(new Font ("TimesRoman", Font.BOLD, 25));
+                // Draw score values to the screen
+                g.drawString("Score: " + (game.getScore() / perfect)*100 + "%", 650, 250);
+                g.drawString("Best Combo: " + game.getBest_combo(), 650, 300);
+                g.drawString("Number of Perfects: " + game.getNumPerfects(), 650, 350);
+                g.drawString("Number of Excellents: " + game.getNumExcellents(), 650, 400);
+                g.drawString("Number of Greats: " + game.getNumGreats(), 650, 450);
+                g.drawString("Number of Goods: " + game.getNumGoods(), 650, 500);
+                g.drawString("Number of OKs: " + game.getNumOKs(), 650, 550);
+                g.drawString("Number of Bads: " + game.getNumBads(), 650, 600);
+            }
         }
 
         // Default dimension is 1920x1080
@@ -346,29 +377,57 @@ public class Graphics extends JFrame {
 
         int abs = Math.abs(candidateBlock.getY() - 720);
 
-        if (candidateBlock.getY() == 720) { return "Perfect!!!"; }
+        if (candidateBlock.getY() == 720) {
+            game.setNumPerfects(game.getNumPerfects() + 1);
+            game.setScore(game.getScore() + game.getPERFECT_SCORE());
+            return "Perfect!!!";
+        }
 
-        else if (abs <= 20) { return "Excellent"; }
+        else if (abs <= 20) {
+            game.setNumExcellents(game.getNumExcellents() + 1);
+            game.setScore(game.getScore() + game.getEXCELLENT_SCORE());
+            return "Excellent";
+        }
 
-        else if (abs <= 40) { return "Great"; }
+        else if (abs <= 40) {
+            game.setNumGreats(game.getNumGreats() + 1);
+            game.setScore(game.getScore() + game.getGREAT_SCORE());
+            return "Great";
+        }
 
-        else if (abs <= 60) { return "Good"; }
+        else if (abs <= 60) {
+            game.setNumGoods(game.getNumGoods() + 1);
+            game.setScore(game.getScore() + game.getGOOD_SCORE());
+            return "Good";
+        }
 
-        else if (abs <= 80) { return "OK"; }
+        else if (abs <= 80) {
+            game.setNumOKs(game.getNumOKs() + 1);
+            game.setScore(game.getScore() + game.getOK_SCORE());
+            return "OK";
+        }
 
-        else if (abs <= 100) { return "Bad"; }
+        else if (abs <= 100) {
+            game.setNumBads(game.getNumBads() + 1);
+            game.setScore(game.getScore() + game.getBAD_SCORE());
+            return "Bad";
+        }
 
         else { return "Error"; } }
 
     /* Removes a block from play, given a candidateBlock
        chosen from the blockArrayList */
     public void remove (Block candidateBlock) {
-        //Judge and remove the block
+        // Judge and remove the block
         judgement = judge(candidateBlock);
         blockArrayList.remove(candidateBlock);
 
-        // Add one to the score and combo
-        game.setScore(game.getScore() + 1);
+        // Add one to the current combo
         game.setCombo(game.getCombo() + 1);
+
+        // Set the best combo so far
+        if (game.best_combo < game.getCombo()) {
+            game.setBest_combo(game.getCombo());
+        }
     }
 }
