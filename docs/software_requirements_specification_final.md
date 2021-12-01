@@ -21,7 +21,7 @@ Requirements for the game will be showcased in this section. These are guideline
 | Requirement ID | Requirement Description															|
 | :------------: | :---------------------:															|
 | FR6  | The speed of a block moving across the screen shall be user defineable within an options menu.								|
-| FR7  | The game's internal system that handles key strokes shall not have any responiveness issues.								|
+| FR7  | The game's internal system that handles key strokes shall not have any responsiveness issues.								|
 | FR7A | 	- A user's inputs for each key shall be calculated seperately, as to avoid overlap.								|
 | FR7B |	- A user's inputs shall be calculated the frame after the input was registered, as to not cause an input to go undetected.			|
 | FR8  | The gameplay loop shall begin upon pressing the "Play Game" button on the main screen.									|
@@ -65,4 +65,4 @@ The purpose of this section is to showcase various artifacts that were produced 
 * [RhythmWareC3.pdf](https://github.com/EthanGrant1/GVSU-CIS350-RhythmWare/tree/master/artifacts/Concepts/RhythmWareC3.pdf)
 * [Gameplay-Use-Case-Diagram.png](https://github.com/EthanGrant1/GVSU-CIS350-RhythmWare/tree/master/artifacts/use_case_diagrams/Gameplay-Use-Case-Diagram.png)
 * [UseCase-OptionsMenu.pdf](https://github.com/EthanGrant1/GVSU-CIS350-RhythmWare/tree/master/artifacts/use_case_diagrams/UseCase-OptionsMenu.pdf)
-* [use_case_song_select.png](https://github.com/EthanGrant1/GVSU-CIS350-RhythmWare/tree/master/artifacts/use_case_song_select.png)
+* [use_case_song_select.png](https://github.com/EthanGrant1/GVSU-CIS350-RhythmWare/blob/master/artifacts/use_case_digrams/use_case_song_select.png)
