@@ -11,30 +11,39 @@ Requirements for the game will be showcased in this section. These are guideline
 ### Score Keeping
 | Requirement ID | Requirement Description 															|
 | :------------: | :---------------------: 															|
-| FR1 | The user's high scores shall be recorded and retrievable via a simple database.										|
-| FR2 | The high score database shall be easily accessible from the song selection screen.									|
-| FR3 | The user's high score shall be recorded for each difficulty.												|
-| FR4 | The game shall calculate the high score utilizing the accuracy of a user's input.									|
-| FR5 | The high score for the song played shall be visible immediately upon completion.									|
+| FR1 | The user's score shall be displayed on the screen during gameplay via the graphics module.								|
+| FR2 | The user's note "judgements" shall be displayed during gameplay (i.e. "Number of Perfects / Excellents / etc:")						|
+| FR3 | The user's high score shall be calculated as a percentage of a total (i.e. "(Number of notes * Judgement score / Perfect score) * 100")			|
+| FR4 | The game shall calculate the high score utilizing the accuracy of a user's input (Perfect judgements are worth 300 points, Excellent 250, etc.).	|
+| FR5 | The user's score and accuracy judgements shall be visible immediately upon completion via an end screen.						|
 
 ### User Input and Gameplay
 | Requirement ID | Requirement Description															|
 | :------------: | :---------------------:															|
-| FR6  | The speed of a block moving across the screen shall be user defineable within an options menu.								|
-| FR7  | The game's internal system that handles key strokes shall not have any responsiveness issues.								|
-| FR7A | 	- A user's inputs for each key shall be calculated seperately, as to avoid overlap.								|
-| FR7B |	- A user's inputs shall be calculated the frame after the input was registered, as to not cause an input to go undetected.			|
-| FR8  | The gameplay loop shall begin upon pressing the "Play Game" button on the main screen.									|
-| FR9  | The system shall close the game window when the "Quit" button is pressed.										|
+| FR6  | The game shall provide feedback to the user that a button has been pressed (via a graphic on screen that displays whenever a user presses a button).	|
+| FR7  | The game's internal system that handles key strokes shall not have any responsiveness issues via timing and key press modules. Specifically:		|
+| FR8  | 	- A user's inputs for each key shall be calculated independently (separate each key modularly rather than use a if-else structure).		|
+| FR9  |	- A user's inputs shall be calculated the frame after the input was registered.									|
+| FR10 | The gameplay loop shall begin upon pressing the "Play Game" button on the main screen.									|
+| FR11 | The system shall close the game window when the "Quit" button is pressed.										|
+
+## Song Menu and Audio
+| Requirement ID | Requirement Description															|
+| :------------: | :---------------------:															|
+| FR12 | A library or module shall be used in order to play audio on the song select menu and during gameplay (i.e. jlayer).					|
+| FR13 | The song select menu shall have an audio preview of the song play before the game starts.								|
+| FR14 | The notes shall be timed with the audio (Timed by frame intervals. "What frame does this note play on?" etc.)						|
+| FR15 | The timing of the notes shall be offset to take into account the distance to travel down the screen (Pixels / Frame over a certain distance).		|
+| FR16 | The audio module shall be relegated to a separate thread in order to not conflict with gameplay and user interaction.					|
+| FR17 | The song menu shall display some info and graphics about the song (Song title, Artist, a banner image, etc.)						|
 
 ## Non-Functional Requirements
 
 ### Graphics and User Interface Design
-
 | Requirement ID | Requirement Description 															|
 | :------------: | :---------------------: 															|
 | NFR1 | The design of the interface shall be user-friendly as to not cause confusion about functionality.							|
-| NFR2 | The user interface shall respond quickly to changes in volume and scroll speed.									|
+| NFR2 | The user interface shall respond quickly and provide feedback to the user.										|
 | NFR3 | Assets shall not be visually distracting or cluttered.													|
 | NFR4 | Notes shall be consistent with audio, and be responsive to user input.											|
 | NFR5 | All parts of the interface shall be consistent and easily navigable.											|
@@ -43,18 +52,20 @@ Requirements for the game will be showcased in this section. These are guideline
 ### High Level Gameplay Loop Implementations
 | Requirement ID | Requirement Description 															|
 | :------------: | :---------------------: 															|
-| NFR7  | High score database shall be responsive and update quickly.												|
-| NFR8  | The difficulties of each song shall be consistent and easily understood by the user.									|
-| NFR9  | The user shall recieve reponsive visual and audio cues to indicate accuracy of a button press.							|
-| NFR10 |The user's keystrokes shall be read effectively and quickly.												|
+| NFR7  | The high score display shall update quickly and be easy to read.											|
+| NFR8  | The difficulty of the game shall be challenging, but easily understandable by a user.									|
+| NFR9  | The user shall receive reponsive visual cues to indicate accuracy of a button press.									|
+| NFR10 | The user's keystrokes shall be read effectively and quickly.												|
+| NFR11 | Notes shall be arranged appropriately to accurately represent the song structure.									| 
 
 ### Assets and Graphics Design
 | Requirement ID | Requirement Description 															|
 | :------------: | :---------------------: 															|
-| NFR11  | The game's graphics shall not include any graphics that are in accordance with the following:						 	|
-| NFR11A | 	- Assets shall not include colors that are of high saturation, such that the contrast causes the color scheme to be displeasing.		|
-| NFR11B |	- Images, colors, and text, shall not pose a challenge when a user is trying to read them, or parse visual information.				|
-| NFR11C |	- Colors and lights shall not flash rapidly (16 frames per second or faster) as to not cause eye strain or epileptic reactions..		|
+| NFR12  | The game's graphics shall not include any graphics that are considered displeasing, ineffective, or otherwise hard to read. Specifically:		|
+| NFR13  | 	- Assets shall not include colors that are highly satuarated (bright, displeasing color schemes)						|
+| NFR14  |	- Images, colors, and text, shall not pose a challenge when a user is trying to read them, or parse visual information.				|
+| NFR15  |	- Colors and lights shall not flash rapidly as to not cause eye strain or epileptic reactions.							|
+| NFR16  | The note colors shall be differentiable so that it is not confusing to the user.									| 
 
 # Software Artifacts
 
