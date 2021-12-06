@@ -37,6 +37,7 @@ public class Game {
     boolean ePressed;
     boolean oPressed;
     boolean pPressed;
+    boolean escPressed;
 
     public Game() {
         score = 0;
@@ -45,6 +46,7 @@ public class Game {
         ePressed = false;
         oPressed = false;
         pPressed = false;
+        escPressed = false;
         judgement = "Bad";
     }
 
@@ -79,9 +81,9 @@ public class Game {
         pPressed = true;
     }
 
-    public void releaseP() {
-        pPressed = false;
-    }
+    public void releaseP() { pPressed = false; }
+
+    public void pressEsc() { escPressed = true; }
 
     // Various getters and setters
     public double getScore() { return score; }
@@ -107,6 +109,8 @@ public class Game {
     public boolean isoPressed() { return oPressed; }
 
     public boolean ispPressed() { return pPressed; }
+
+    public boolean isEscPressed() { return escPressed; }
 
     public int getNumPerfects() {
         return numPerfects;

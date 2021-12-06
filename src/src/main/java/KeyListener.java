@@ -34,6 +34,10 @@ class KeyListener extends KeyAdapter {
         else if (e.getKeyCode() == KeyEvent.VK_P) {
             Graphics.game.pressP();
         }
+
+        else if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
+            Graphics.game.pressEsc();
+        }
     }
 
     @Override

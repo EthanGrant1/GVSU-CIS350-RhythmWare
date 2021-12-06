@@ -100,7 +100,7 @@ public class Block {
         float offset = 1f/60f;
 
         // Read the note times from a file
-        File f = new File("src/main/Assets/Songs/PandoraPalace/NoteTimes.txt");
+        File f = new File("src/main/Assets/Songs/Pandora Palace/NoteTimes.txt");
         BufferedReader b = new BufferedReader(new FileReader(f));
 
         // Randomly assign lanes for now

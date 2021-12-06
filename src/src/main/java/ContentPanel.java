@@ -15,35 +15,45 @@ import javazoom.jl.player.Player;
  * The main panel for the GUI.
  *****************************************/
 public class ContentPanel extends JPanel {
+    int directoryPos = 0;
     // Buttons within the GUI
     //Main Menu
-    JButton playButton, scoreButton, optionButton, quitButton;
+    JButton playButton, optionButton, quitButton;
+    JLabel gameName;
 
     // Song Menu
-    JPanel panel1, difficultyPanel, scores;
-    JLabel title, artist, bpm;
+    JPanel panel, difficultyPanel, scores;
+    JLabel title;
     JButton previousButton, nextButton, easyButton, normalButton, hardButton;
     TitledBorder border = BorderFactory.createTitledBorder("Scores");
 
-
+    //generates different GUI based on which menu is chosen
     public void addContentPanel(String menu) {
 
         // We will be using the BorderLayout for the GUI
         setLayout(new BorderLayout());
 
         if (menu.equals("Main Menu")) {
-
             JPanel subPanel = new JPanel();
             subPanel.setLayout(new BorderLayout());
 
+            gameName = new JLabel("RhythmWare Mania");
+            gameName.setPreferredSize(new Dimension(370, 400));
+            gameName.setFont(new Font("Arial", Font.BOLD,40));
+            add(gameName, BorderLayout.NORTH);
+
+
             // Add the buttons to the sub panel
             playButton = new JButton("Play Game");
+            playButton.setPreferredSize(new Dimension(120, 40));
             subPanel.add(playButton, BorderLayout.NORTH);
 
             optionButton = new JButton("Options");
+            optionButton.setPreferredSize(new Dimension(120, 40));
             subPanel.add(optionButton, BorderLayout.CENTER);
 
             quitButton = new JButton("Quit Game");
+            quitButton.setPreferredSize(new Dimension(120, 40));
             subPanel.add(quitButton, BorderLayout.SOUTH);
 
             //adding sub panel to center of main menu panel
@@ -56,6 +66,7 @@ public class ContentPanel extends JPanel {
         }
 
         if (menu.equals("Song Select")) {
+
             //Default buttons
             previousButton = new JButton("<");
             add(previousButton, BorderLayout.WEST);
@@ -78,26 +89,33 @@ public class ContentPanel extends JPanel {
 
 
             //Panel That Contains BG and Song Information
-            panel1 = new JPanel();
-            panel1.setLayout(new BorderLayout());
-            panel1.setBorder(BorderFactory.createEtchedBorder());
-            panel1.add(getBG(), BorderLayout.EAST);
-            title = new JLabel(getSongInformation()[0]);
-            title.setFont(new Font("Verdana",1,40));
-//            artist = new JLabel(getSongInformation()[1]);
-//            artist.setFont(new Font("Verdana",1,15));
-//            bpm = new JLabel(getSongInformation()[2]);
-//            bpm.setFont(new Font("Verdana",1,15));
+            panel = new JPanel();
+            panel.setLayout(new BorderLayout());
+            panel.setBorder(BorderFactory.createEtchedBorder());
+            panel.add(getBG(), BorderLayout.EAST);
+
+            //adding song title and artist to screen
+            title = new JLabel(getSongInformation()[1] + " - " + getSongInformation()[0]);
+            title.setFont(new Font("Verdana", Font.BOLD,40));
             add(title, BorderLayout.NORTH);
-//            panel1.add(artist, BorderLayout.NORTH);
-//            panel1.add(bpm, BorderLayout.EAST);
-            add(panel1, BorderLayout.CENTER);
-            panel1.add(difficultyPanel, BorderLayout.SOUTH);
+            add(panel, BorderLayout.CENTER);
+            panel.add(difficultyPanel, BorderLayout.SOUTH);
+
+            //panel that displays scores
             scores = new JPanel();
             scores.setPreferredSize(new Dimension(220, 400));
             scores.setBorder(border);
-            panel1.add(scores, BorderLayout.WEST);
+            panel.add(scores, BorderLayout.WEST);
+
+            //play song audio
             start();
+
+            // Register the action listeners
+            previousButton.addActionListener(new ButtonListener());
+            nextButton.addActionListener(new ButtonListener());
+            easyButton.addActionListener(new ButtonListener());
+            normalButton.addActionListener(new ButtonListener());
+            hardButton.addActionListener(new ButtonListener());
         }
 
         if (menu.equals("Options")) {
@@ -118,20 +136,21 @@ public class ContentPanel extends JPanel {
     public JLabel getBG(){
         BufferedImage background = null;
         try {
-            background = ImageIO.read(new File("src/main/Assets/Songs/PandoraPalace/DeltaruneBG.jpg"));
+            background = ImageIO.read(new File("src/main/Assets/Songs/" + getCurrentSong() + "/BG.jpg"));
         } catch (IOException e) {
             e.printStackTrace();
         }
         Image scaled = background.getScaledInstance(1600, 900, Image.SCALE_SMOOTH);
         return new JLabel(new ImageIcon(scaled));
     }
+
     //method for playing the song in the song select menu
-    public static void playSong() {
+    public void playSong() {
         FileInputStream fileInputStream;
         BufferedInputStream bufferedInputStream;
         Player player;
         try {
-            fileInputStream = new FileInputStream("src/main/Assets/Songs/PandoraPalace/PandoraPalace.mp3");
+            fileInputStream = new FileInputStream("src/main/Assets/Songs/" + getCurrentSong() + "/Song.mp3");
             bufferedInputStream = new BufferedInputStream(fileInputStream);
             player = new Player(bufferedInputStream);
             player.play();
@@ -151,9 +170,10 @@ public class ContentPanel extends JPanel {
         };
         worker.execute();
     }
+    //reads songInfo file
     public String[] getSongInformation(){
         String[] info = new String[3];
-        File file = new File("src/main/Assets/Songs/PandoraPalace/SongInfo.txt");
+        File file = new File("src/main/Assets/Songs/" + getCurrentSong() + "/SongInfo.txt");
         Scanner scanner = null;
         try {
             scanner = new Scanner(file);
@@ -176,6 +196,10 @@ public class ContentPanel extends JPanel {
         }
         return info;
     }
+    //gets the name of the song in directory
+    public String getCurrentSong(){
+        return "Pandora Palace";
+    }
     private class ButtonListener implements ActionListener {
 
         // TODO: Add all events to this ActionEvent list.
@@ -185,10 +209,6 @@ public class ContentPanel extends JPanel {
             //MAIN MENU BUTTONS
             if (event.getSource() == playButton) {
                 changeMenu("Song Select");
-            }
-
-            if (event.getSource() == scoreButton) {
-
             }
 
             if (event.getSource() == optionButton) {
@@ -201,10 +221,28 @@ public class ContentPanel extends JPanel {
 
             //SONG SELECTION MENU BUTTONS
             if (event.getSource() == previousButton) {
-                getBG();
+                if(directoryPos > 0){
+                    directoryPos -= 1;
+                }
             }
-
             if (event.getSource() == nextButton) {
-                getBG();
+                if (directoryPos < new File("src/main/Assets/Songs/").list().length) {
+                    directoryPos += 1;
+                }
             }
-            } } }
+            if(event.getSource() == easyButton){
+
+            }
+            if (event.getSource() == normalButton){
+                try {
+                    new Graphics("Pandora Palace");
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (event.getSource() == hardButton){
+
+            }
+        }
+    }
+}

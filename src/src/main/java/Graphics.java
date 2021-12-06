@@ -1,11 +1,10 @@
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
-import java.io.IOException;
+import java.io.*;
 import java.util.Random;
 import java.util.ArrayList;
 import java.lang.Math;
-
 
 /**************************************************************************
  * Graphics class that renders objects to the screen.
@@ -38,6 +37,12 @@ public class Graphics extends JFrame {
 
     // A constant value for perfect score
     double perfect;
+
+    // How we track scores
+    File f = new File("src/main/Assets/Songs/Pandora Palace/Scores.txt");
+    FileWriter fw;
+    BufferedWriter buff;
+    boolean isScoreWritten = false;
 
     // How we will keep track of all game variables
     public static Game game = new Game();
@@ -80,24 +85,25 @@ public class Graphics extends JFrame {
     // A prototype of the graphical rendering
     public Graphics(String songToUse) throws IOException {
 
-        if (songToUse.equals("random")) {
-            beats = new Block[size];
-            this.makeRandomBeatKeeper();
-        }
+        switch (songToUse) {
+            case "random":
+                beats = new Block[size];
+                this.makeRandomBeatKeeper();
+                break;
 
-        else if (songToUse.equals("Pandora Palace")) {
-            beats = Block.makePandora();
-            perfect = beats.length * game.getPERFECT_SCORE();
-        }
+            case "Pandora Palace":
+                beats = Block.makePandora();
+                perfect = beats.length * game.getPERFECT_SCORE();
+                break;
 
-        // For testing
-        else if (songToUse.equals("empty")) {
-            beats = new Block[0];
-        }
+            // For testing
+            case "empty":
+                beats = new Block[0];
+                break;
 
-        else {
-            System.out.println("Not a valid song.");
-            System.exit(1);
+            default:
+                System.out.println("Not a valid song.");
+                System.exit(1);
         }
 
         /* An ActionListener which is responsible for
@@ -153,7 +159,7 @@ public class Graphics extends JFrame {
         setSize(d.getPreferredSize());
 
         // Setting defaults and displaying the window
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
         setVisible(true); }
 
@@ -188,15 +194,15 @@ public class Graphics extends JFrame {
             if (current_i < beats.length) {
                 // Render a black background
                 g.setColor(Color.BLACK);
-                g.fillRect(0, 0, 1920, 1080);
+                g.fillRect(0, 0, (int)d.getPreferredSize().getWidth(), (int)d.getPreferredSize().getHeight());
 
                 // Draw lanes with 110 pixel gaps so blocks aren't flush
                 g.setColor(Color.WHITE);
-                g.drawLine(540, 0, 540, 1080);
-                g.drawLine(650, 0, 650, 1080);
-                g.drawLine(760, 0, 760, 1080);
-                g.drawLine(870, 0, 870, 1080);
-                g.drawLine(980, 0, 980, 1080);
+                g.drawLine(540, 0, 540, (int)d.getPreferredSize().getHeight());
+                g.drawLine(650, 0, 650, (int)d.getPreferredSize().getHeight());
+                g.drawLine(760, 0, 760, (int)d.getPreferredSize().getHeight());
+                g.drawLine(870, 0, 870, (int)d.getPreferredSize().getHeight());
+                g.drawLine(980, 0, 980, (int)d.getPreferredSize().getHeight());
 
                 // Constants for block x-positions
                 int redBlockPosX = 545;
@@ -314,6 +320,11 @@ public class Graphics extends JFrame {
                     }
                 }
 
+                // Esc is pressed. Close the window.
+                if (game.isEscPressed()) {
+                    Graphics.this.dispatchEvent(new WindowEvent(Graphics.this, WindowEvent.WINDOW_CLOSING));
+                }
+
                 // Set the font and the font size
                 g.setFont(new Font ("TimesRoman", Font.BOLD, 14));
                 // Draw score values to the screen
@@ -329,8 +340,6 @@ public class Graphics extends JFrame {
             }
 
             // Else, blocks have finished falling Display the end screen.
-
-            // TODO: Currently a mockup. Can be improved.
             else {
                 g.setColor(Color.BLACK);
                 g.fillRect(0, 0, 1920, 1080);
@@ -351,12 +360,23 @@ public class Graphics extends JFrame {
                 g.drawString("Number of Goods: " + game.getNumGoods(), 650, 500);
                 g.drawString("Number of OKs: " + game.getNumOKs(), 650, 550);
                 g.drawString("Number of Bads: " + game.getNumBads(), 650, 600);
+
+                if (!isScoreWritten) {
+                    try {
+                        writeScores();
+                        closeWriter();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    isScoreWritten = true;
+                }
             }
         }
 
         // Default dimension is 1920x1080
         public Dimension getPreferredSize() {
-            return new Dimension(1920, 1080); } }
+            return Toolkit.getDefaultToolkit().getScreenSize();
+        } }
 
     /***************************************************************
      * Determine the candidateBlock's position for judgement.
@@ -430,4 +450,25 @@ public class Graphics extends JFrame {
             game.setBest_combo(game.getCombo());
         }
     }
+
+    public void writeScores() throws IOException {
+
+        if (f.createNewFile()) {
+            fw = new FileWriter(f);
+        }
+        else {
+            fw = new FileWriter(f, true);
+        }
+
+        buff = new BufferedWriter(fw);
+        buff.write("Player High Score - " + game.getScore() + "\n");
+        buff.flush();
+
+        fw.close();
+    }
+
+    public void closeWriter() throws IOException {
+        buff.close();
+    }
+
 }
