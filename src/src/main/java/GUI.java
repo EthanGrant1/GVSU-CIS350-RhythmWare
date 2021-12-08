@@ -7,14 +7,16 @@ import javax.swing.*;
  * This is what the Game() class is going to be run in.
  *******************************************************************/
 public class GUI {
-    public static void main(String args[]) {
+    public static void main (String [] args) {
         JFrame frame;
         // Setting up the main frame
         frame = new JFrame("RhythmWare Game");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        // Maximizes the size of the frame to the user's screen size
         frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
 
-        // Adds the menu bar
+        // The menu bar that displays at the top of the screen
         JMenuBar mb = new JMenuBar();
 
         // Menus for File and Options
@@ -32,6 +34,7 @@ public class GUI {
         JMenuItem restartMenuButton = new JMenuItem("Restart Current Song");
         JMenuItem quitMenuButton = new JMenuItem("Quit");
 
+        // Adds the items to menu 1 (the File menu) or menu 2 (the Options menu)
         m1.add(openMenuButton);
         m1.add(saveMenuButton);
         m1.add(saveAsMenuButton);

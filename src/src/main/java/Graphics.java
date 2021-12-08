@@ -11,23 +11,22 @@ import java.lang.Math;
  **************************************************************************/
 public class Graphics extends JFrame {
 
-
     // An array list to keep track of the active blocks
     ArrayList<Block> blockArrayList = new ArrayList<>();
 
-    // An arbitrary size for our block count
+    // An arbitrary size for random chart. Only for testing purposes
     int size = 1000;
 
-    // An array of BeatKeepers which holds information about the blocks
+    // An array of Blocks which holds information about the blocks
     Block[] beats;
 
     // How graphics will be drawn to the screen
     Draw d = new Draw();
 
-    // Variable to keep track of index in the array
+    // Variable to keep track of index in the beats array
     int current_i = 0;
 
-    // y-values of active blocks
+    // y-values of active blocks. Unused because of updated Block class.
     // ArrayList<Integer> y_val = new ArrayList<>;
 
     // Float to keep track of the current time
@@ -36,10 +35,10 @@ public class Graphics extends JFrame {
     // The judgement for the timing of a user's key press
     String judgement = "";
 
-    // A constant value for perfect score
-    double perfect;
+    // A constant value for perfect score. Equal to 300 * total note count.
+    double perfect = 0;
 
-    // How we track scores
+    // How scores are tracked. Using a score txt file.
     File f = new File("src/main/Assets/Songs/Pandora Palace/Scores.txt");
     FileWriter fw;
     BufferedWriter buff;
@@ -48,8 +47,16 @@ public class Graphics extends JFrame {
     // How we will keep track of all game variables
     public static Game game = new Game();
 
+    /**************************************
+     * makeRandomBeatKeeper()
+     *
+     * Used for testing. Randomly assigns
+     * lanes to 1000 blocks, each with an
+     * offset of 1 second. Essentially a
+     * randomized 60BPM chart.
+     **************************************/
     public void makeRandomBeatKeeper() {
-        // Offset in seconds.
+        // Offset in seconds
         int offset = 1;
 
         // Randomly assign a block to a lane
@@ -58,6 +65,7 @@ public class Graphics extends JFrame {
             // Random number between 0 and 3 inclusive
             int randInt = rand.nextInt(4);
 
+            // The random int assigns a lane to the block
             switch (randInt) {
                 case 0:
                     beats[i] = new Block("red");
@@ -83,24 +91,38 @@ public class Graphics extends JFrame {
         }
     }
 
-    // A prototype of the graphical rendering
+    /************************************************************
+     * Graphics(String songToUse):
+     *
+     * Renders graphics in real time to the screen.
+     *
+     * @param songToUse is the String representation of the song
+     *                  title.
+     *
+     * @throws IOException if Songs files are not found (Scores,
+     *                     NoteTimes, etc.).
+     ************************************************************/
     public Graphics(String songToUse) throws IOException {
         switch (songToUse) {
+
+            // Use a random chart (for testing)
             case "random":
                 beats = new Block[size];
                 this.makeRandomBeatKeeper();
                 break;
 
+            // Pandora Palace. The main chart.
             case "Pandora Palace":
                 beats = Block.makePandora();
                 perfect = beats.length * game.getPERFECT_SCORE();
                 break;
 
-            // For testing
+            // Empty array. For testing the results screen.
             case "empty":
                 beats = new Block[0];
                 break;
 
+            // Invalid song entry
             default:
                 System.out.println("Not a valid song.");
                 System.exit(1);
@@ -119,6 +141,7 @@ public class Graphics extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
 
+                // Time is in 60 frames a second
                 time += (1f/60f);
 
                 // For all active blocks' y-values...
@@ -363,6 +386,7 @@ public class Graphics extends JFrame {
                 g.drawString("Number of OKs: " + game.getNumOKs(), 650, 550);
                 g.drawString("Number of Bads: " + game.getNumBads(), 650, 600);
 
+                // Write the score to the Scores.txt file once
                 if (!isScoreWritten) {
                     try {
                         writeScores();
@@ -375,7 +399,7 @@ public class Graphics extends JFrame {
             }
         }
 
-        // Default dimension is 1920x1080
+        // Default dimension is the user's screen size
         public Dimension getPreferredSize() {
             return Toolkit.getDefaultToolkit().getScreenSize();
         } }
@@ -397,44 +421,53 @@ public class Graphics extends JFrame {
      ***************************************************************/
     public String judge(Block candidateBlock) {
 
+        /* Variable to track the number of pixels from the center of the "goal point"
+           the candidate block is. */
         int abs = Math.abs(candidateBlock.getY() - 720);
 
+        // Exactly on the goal point
         if (candidateBlock.getY() == 720) {
             game.setNumPerfects(game.getNumPerfects() + 1);
             game.setScore(game.getScore() + game.getPERFECT_SCORE());
             return "Perfect!!!";
         }
 
+        // 1-20 pixels away from the goal point
         else if (abs <= 20) {
             game.setNumExcellents(game.getNumExcellents() + 1);
             game.setScore(game.getScore() + game.getEXCELLENT_SCORE());
             return "Excellent";
         }
 
+        // 21-40 pixels away from the goal point
         else if (abs <= 40) {
             game.setNumGreats(game.getNumGreats() + 1);
             game.setScore(game.getScore() + game.getGREAT_SCORE());
             return "Great";
         }
 
+        // 41-60 pixels away from the goal point
         else if (abs <= 60) {
             game.setNumGoods(game.getNumGoods() + 1);
             game.setScore(game.getScore() + game.getGOOD_SCORE());
             return "Good";
         }
 
+        // 61-80 pixels away from the goal point
         else if (abs <= 80) {
             game.setNumOKs(game.getNumOKs() + 1);
             game.setScore(game.getScore() + game.getOK_SCORE());
             return "OK";
         }
 
+        // 81-100 pixels away from the goal point
         else if (abs <= 100) {
             game.setNumBads(game.getNumBads() + 1);
             game.setScore(game.getScore() + game.getBAD_SCORE());
             return "Bad";
         }
 
+        // Candidate blocks should never be farther than 100 pixels away from the goal point
         else { return "Error"; } }
 
     /* Removes a block from play, given a candidateBlock
@@ -453,24 +486,44 @@ public class Graphics extends JFrame {
         }
     }
 
+    /***************************************************
+     * Write the scores to a txt file using FileWriters
+     * and BufferedWriters.
+     *
+     * @throws IOException if there is a problem
+     * with the FileWriter or BufferedWriter.
+     ***************************************************/
     public void writeScores() throws IOException {
 
+        // Make a new file if the file does not exist
         if (f.createNewFile()) {
             fw = new FileWriter(f);
         }
+        // Else, append to the already existing file
         else {
             fw = new FileWriter(f, true);
         }
 
+        // Write to the file using a BufferedWriter
         buff = new BufferedWriter(fw);
         buff.write("Player - " + game.getScore() + "\n");
+
+        // Flushes the characters to a character or byte stream
         buff.flush();
 
+        // Closes the FileWriter
         fw.close();
     }
 
+    /***************************************************
+     * Closes the BufferedWriter separately because
+     * once a stream is closed, it cannot be opened
+     * again.
+     *
+     * @throws IOException if there is a problem with
+     * the BufferedWriter.
+     ***************************************************/
     public void closeWriter() throws IOException {
         buff.close();
     }
-
 }

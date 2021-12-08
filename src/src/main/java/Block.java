@@ -9,8 +9,8 @@ import java.util.Random;
 public class Block {
 
     // The values for the position of the blocks
-    private int x = 0;
-    private int y = 0;
+    private int x;
+    private int y;
 
     // How fast the block moves down the screen
     public int blockSpeed;
@@ -21,7 +21,7 @@ public class Block {
     // What lane the block occupies
     private String blockType;
 
-    private float time = 0f;
+    private float time;
 
     // The block is no longer in play
     public void deactivate() { activeBlock = false; }
@@ -41,8 +41,8 @@ public class Block {
 
         activeBlock = true;
 
-        // Determine what lane the block occupies,
-        // and set the x value to the constant position
+        /* Determine what lane the block occupies,
+           and set the x value to the constant position */
         switch (blockType) {
             case "red":
                 this.x = redBlockPosX;
@@ -90,7 +90,6 @@ public class Block {
     public void setTime(float time) { this.time = time; }
 
     // Hardcoded chart for Pandora Palace
-    // TODO: Chart lane colors for all notes
     public static Block[] makePandora() throws IOException {
         // Initialize the size of the chart
         Block[] pandora = new Block[525];
@@ -103,7 +102,7 @@ public class Block {
         File f = new File("src/main/Assets/Songs/Pandora Palace/NoteTimes.txt");
         BufferedReader b = new BufferedReader(new FileReader(f));
 
-        // Randomly assign lanes for now
+        // Randomly assign lanes
         Random rand = new Random();
         for (int i = 0; i < pandora.length-1; i++) {
             int randInt = rand.nextInt(4);
@@ -124,6 +123,7 @@ public class Block {
                     pandora[i] = new Block("blue");
                     break;
             }
+
             // Blocks move 15 pixels / frame
             pandora[i].setBlockSpeed(15);
         }

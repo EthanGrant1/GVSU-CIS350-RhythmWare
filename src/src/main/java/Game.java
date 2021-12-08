@@ -15,7 +15,6 @@ public class Game {
     final int OK_SCORE = 100;
     final int BAD_SCORE = 50;
 
-
     // The current and best combo so far
     int combo;
     int best_combo;
@@ -30,15 +29,22 @@ public class Game {
     int numBads = 0;
 
     // Boolean values to keep track of key presses
-
-    /* TODO: Allow for the user to change keys to
-        whatever keys they want via a setting. */
     boolean wPressed;
     boolean ePressed;
     boolean oPressed;
     boolean pPressed;
     boolean escPressed;
 
+    /******************************************************
+     * Game():
+     *
+     * Constructor for the game.
+     * score: The total score.
+     * combo: The current combo the player has achieved.
+     * w / e / i / o pressed: Button press boolean values.
+     * escPressed: Exit button condition.
+     * judgement: Current accuracy judgement of the player.
+     ******************************************************/
     public Game() {
         score = 0;
         combo = 0;
@@ -86,6 +92,8 @@ public class Game {
     public void pressEsc() { escPressed = true; }
 
     // Various getters and setters
+
+    // Score and combo related
     public double getScore() { return score; }
 
     public void setScore(double score) { this.score = score; }
@@ -102,6 +110,7 @@ public class Game {
 
     public void setJudgement(String judgement) { this.judgement = judgement; }
 
+    // Button press boolean values
     public boolean iswPressed() { return wPressed; }
 
     public boolean isePressed() { return ePressed; }
@@ -112,6 +121,7 @@ public class Game {
 
     public boolean isEscPressed() { return escPressed; }
 
+    // Accuracy judgements
     public int getNumPerfects() {
         return numPerfects;
     }
@@ -160,6 +170,7 @@ public class Game {
         this.numBads = numBads;
     }
 
+    // Constants for score values
     public int getPERFECT_SCORE() {
         return PERFECT_SCORE;
     }

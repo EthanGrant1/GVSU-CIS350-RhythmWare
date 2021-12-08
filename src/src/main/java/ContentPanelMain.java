@@ -16,6 +16,8 @@ public class ContentPanelMain extends JPanel {
     /*********************************************************************************************************
      * Does the behind the scenes work for the GUI and implements menu functionality.
      *
+     * Most of these menu buttons are not functional as we wanted to focus on gameplay first and foremost.
+     *
      * @param openMenuButton Opens a song file.
      * @param saveMenuButton Saves a song file as default file format.
      * @param saveAsMenuButton Saves a song file as selected file format.
@@ -63,31 +65,30 @@ public class ContentPanelMain extends JPanel {
         public void actionPerformed(ActionEvent event) {
 
             // Button events are currently blank
-            // TODO: Give functionality to all menu buttons
-            if (event.getSource() == openMenuButton) {
 
+            if (event.getSource() == openMenuButton) {
+                // Not functional
             }
 
             if (event.getSource() == saveMenuButton) {
-
+                // Not functional
             }
 
             if (event.getSource() == saveAsMenuButton) {
-
+                // Not functional
             }
 
             if (event.getSource() == volumeMenuButton) {
-
+                // Not functional
             }
 
             if (event.getSource() == resetMenuButton) {
-
+                // Not functional
             }
 
             if (event.getSource() == restartMenuButton) {
-
+                // Not functional
             }
 
-            if (event.getSource() == quitMenuButton) {
-                System.exit(1);
-            } } } }
+            // Quit button. Exit the program.
+            if (event.getSource() == quitMenuButton) { System.exit(1); } } } }
