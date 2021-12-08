@@ -1,10 +1,26 @@
 # RhythmWare
 
-Our project is going to consist of a rhythm game (possibly with several modes) in which the player can either:
-* Catch notes in a "basket" which is rotated along a circular play area. Notes radiate from the center of the play area and the player must catch them before they leave the play area.
-* Press buttons in time with the music to "hack-n-slash" blocks that are coming towards the player character. A take on the "scrolling rhythm game" subgenre.
+We are RhythmWare, a small team of four undergrad students attending Grand Valley State University. Our team worked on and completed a prototype of a "scrolling style" rhythm game (think StepMania or Dance Dance Revolution) over the course of a semester.
 
-Our project will be programmed in Java. As it stands currently we are going to be adding GUI elements (interactable menus to select different modes, difficulties, etc.), programming the mode in which the team agrees on the most first, and creating mutable options within the game so that it is customizable in some way (speed of notes can be as fast / slow as you want, BPM, etc.). We are also looking into the possibility of adding "hold" notes (notes in which the player needs to hold a button / sustain a position for a period of time instead of just performing one quick action).
+## Meet the team
+
+* Roman Brancato (romannn): 
+
+* David Geisel (the burgermeister):
+
+* Ethan Grant (SOON): A third year undergrad student at Grand Valley State University's computer science major. Ethan has experience in multiple programming languages (including Java, C, and Python). Ethan has an incredible interest in technology, programming, and most of all, video games. At the time of writing this, Ethan has logged an impressive 675+ hours into Super Smash Bros. Ultimate (that's a lot!). Ethan hopes to be a backend developer for a software engineering company, or produce video games at a development studio. 
+
+* Brian Turnbo (Zeldot):
+
+## The Game
+
+Our project is a "scrolling style" rhythm game similar to games like StepMania or Dance Dance Revolution. The player hits keyboard keys in time with the music. The player is given an accuracy judgement whenever they successfully hit a note. The accuracy judgements are determined by how far away the note is from the "hit detection zone" (a small area near the bottom of the screen in which notes scroll towards). The player must try to hit the notes as close to the hit detection zone as possible to be rewarded with the best accuracy. The accuracy that a player gets determines the amount of score they recieve (from a range of 50 for worst, and 300 for best). The players goal is to get the highest score possible.
+
+
+## Programming
+
+This game was programmed entirely in Java 12.
+
 
 ## Team Members and Roles
 
@@ -15,4 +31,8 @@ Our project will be programmed in Java. As it stands currently we are going to b
 
 ## Prerequisites
 
+Unfortunately, we are unable to provide an executable JAR file in which to run the game. So a prerequisite is that you must use [IntelliJ IDEA](https://www.jetbrains.com/idea/download) (we recommend using the free Community version). The detailed instructions on how to get an IntelliJ project up and running can be found below.
+
 ## Run Instructions
+
+View the instructions [here](https://github.com/EthanGrant1/GVSU-CIS350-RhythmWare/blob/master/docs/Run Instructions.pdf)
