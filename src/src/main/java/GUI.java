@@ -12,7 +12,7 @@ public class GUI {
         // Setting up the main frame
         frame = new JFrame("RhythmWare Game");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(1920, 1080);
+        frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
 
         // Adds the menu bar
         JMenuBar mb = new JMenuBar();

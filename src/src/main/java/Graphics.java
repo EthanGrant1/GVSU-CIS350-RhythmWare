@@ -11,6 +11,7 @@ import java.lang.Math;
  **************************************************************************/
 public class Graphics extends JFrame {
 
+
     // An array list to keep track of the active blocks
     ArrayList<Block> blockArrayList = new ArrayList<>();
 
@@ -84,7 +85,6 @@ public class Graphics extends JFrame {
 
     // A prototype of the graphical rendering
     public Graphics(String songToUse) throws IOException {
-
         switch (songToUse) {
             case "random":
                 beats = new Block[size];
@@ -155,9 +155,9 @@ public class Graphics extends JFrame {
         // Add the key listener
         addKeyListener(new KeyListener());
 
-        // Window is 1920x1080
-        setSize(d.getPreferredSize());
-
+        // Window is opened in fullscreen
+        setExtendedState(JFrame.MAXIMIZED_BOTH);
+        setUndecorated(true);
         // Setting defaults and displaying the window
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
@@ -191,7 +191,7 @@ public class Graphics extends JFrame {
             super.paintComponents(g);
 
             // If there are blocks still in the list
-            if (current_i < beats.length) {
+            if (current_i < beats.length - 1) {
                 // Render a black background
                 g.setColor(Color.BLACK);
                 g.fillRect(0, 0, (int)d.getPreferredSize().getWidth(), (int)d.getPreferredSize().getHeight());
@@ -340,7 +340,9 @@ public class Graphics extends JFrame {
             }
 
             // Else, blocks have finished falling Display the end screen.
-            else {
+
+            //TEMP CONDITION CHANGE LATER
+            else if (beats.length == 0 || Math.abs(beats[current_i].getTime() - time) > 0.001f) {
                 g.setColor(Color.BLACK);
                 g.fillRect(0, 0, 1920, 1080);
 
@@ -461,7 +463,7 @@ public class Graphics extends JFrame {
         }
 
         buff = new BufferedWriter(fw);
-        buff.write("Player High Score - " + game.getScore() + "\n");
+        buff.write("Player - " + game.getScore() + "\n");
         buff.flush();
 
         fw.close();
