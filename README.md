@@ -35,4 +35,4 @@ Unfortunately, we are unable to provide an executable JAR file in which to run t
 
 ## Run Instructions
 
-View the instructions [here](https://github.com/EthanGrant1/GVSU-CIS350-RhythmWare/blob/master/docs/Run Instructions.pdf)
+View the instructions [here](https://github.com/EthanGrant1/GVSU-CIS350-RhythmWare/blob/master/docs/Run%20Instructions.pdf)
